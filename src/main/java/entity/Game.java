@@ -3,24 +3,25 @@ package entity;
 import enums.Genre;
 
 import java.util.Date;
-import java.util.List;
 
 public class Game {
-    private int id;
+    private long id;
     private String name;
     private int cost;
     private Date releaseDate;
-    private String descriprtion;
-    private SystemRequirements minimumSystemRequirements;
-    private SystemRequirements normalSystemRequirements;
+    private String description;
+    private SystemRequirements minimalSystemRequirements;
+    private SystemRequirements recommendedSystemRequirements;
     private String developer;
-    private List<Genre> genres;
+    private Genre genre;
+    private String posterLink;
 
-    public int getId() {
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -40,6 +41,7 @@ public class Game {
         this.cost = cost;
     }
 
+
     public Date getReleaseDate() {
         return releaseDate;
     }
@@ -48,28 +50,29 @@ public class Game {
         this.releaseDate = releaseDate;
     }
 
-    public String getDescriprtion() {
-        return descriprtion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriprtion(String descriprtion) {
-        this.descriprtion = descriprtion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public SystemRequirements getMinimumSystemRequirements() {
-        return minimumSystemRequirements;
+
+    public SystemRequirements getMinimalSystemRequirements() {
+        return minimalSystemRequirements;
     }
 
-    public void setMinimumSystemRequirements(SystemRequirements minimumSystemRequirements) {
-        this.minimumSystemRequirements = minimumSystemRequirements;
+    public void setMinimalSystemRequirements(SystemRequirements minimalSystemRequirements) {
+        this.minimalSystemRequirements = minimalSystemRequirements;
     }
 
-    public SystemRequirements getNormalSystemRequirements() {
-        return normalSystemRequirements;
+    public SystemRequirements getRecommendedSystemRequirements() {
+        return recommendedSystemRequirements;
     }
 
-    public void setNormalSystemRequirements(SystemRequirements normalSystemRequirements) {
-        this.normalSystemRequirements = normalSystemRequirements;
+    public void setRecommendedSystemRequirements(SystemRequirements recommendedSystemRequirements) {
+        this.recommendedSystemRequirements = recommendedSystemRequirements;
     }
 
     public String getDeveloper() {
@@ -80,26 +83,37 @@ public class Game {
         this.developer = developer;
     }
 
-    public List<Genre> getGenres() {
-        return genres;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
-    public Game(int id, String name, int cost, Date releaseDate, String descriprtion,
-                SystemRequirements minimumSystemRequirements, SystemRequirements normalSystemRequirements,
-                String developer, List<Genre> genres) {
+    public String getPosterLink() {
+        return posterLink;
+    }
+
+    public void setPosterLink(String posterLink) {
+        this.posterLink = posterLink;
+    }
+
+    public Game(long id, String name, int cost, Date releaseDate, String description, SystemRequirements minimalSystemRequirements,
+                SystemRequirements recommendedSystemRequirements, String developer, Genre genre) {
         this.id = id;
         this.name = name;
         this.cost = cost;
         this.releaseDate = releaseDate;
-        this.descriprtion = descriprtion;
-        this.minimumSystemRequirements = minimumSystemRequirements;
-        this.normalSystemRequirements = normalSystemRequirements;
+        this.description = description;
+        this.minimalSystemRequirements = minimalSystemRequirements;
+        this.recommendedSystemRequirements = recommendedSystemRequirements;
         this.developer = developer;
-        this.genres = genres;
+        this.genre = genre;
+    }
+
+    public Game(long id) {
+        this.id = id;
     }
 
     public Game() {

@@ -1,0 +1,173 @@
+input[type = "text"], input[type = "password"], input[type = "date"]{
+	width: 300px;
+	height: 50px;
+    font-size: 18px;
+    margin-bottom: 25px;
+	margin-top: 7px;
+	border: 1px solid black;
+    border-radius: 4px;
+}
+input.enter{
+	width: 300px;
+	height: 50px;
+	margin-top: 7px;
+	color: black;
+	font-size: 18px;
+	font-weight: bold;
+	text-shadow: 0px -1px 0px #5b6ddc;
+	outline: none;
+	border: 1px solid;
+}
+body{
+    height: 500px;
+	opacity: 1;
+	background: url(images/background.jpg) no-repeat fixed center;
+}
+label{
+	/*#528CCF*/
+	color:black;
+	float: left;
+	font-size:23px
+}
+
+nav {
+	width: 960px;
+	margin: 0 auto;
+}
+
+nav:before{
+	content: '';
+	display:block;
+	height:50px;
+	width:100%;
+	background-color: #000;
+	position: absolute;
+	z-index:-1;
+	left:0;
+}
+
+ul{
+	margin:0;
+	padding:0;
+	list-style:none;
+	height:50px;
+}
+
+ul li{
+	float:left;
+}
+
+ul li a{
+	color:#fff;
+	display:block;
+	height:50px;
+	padding: 0 20px;
+	text-transform:uppercase;
+	text-decoration:none;
+	line-height: 50px;
+}
+
+ul li a:hover{
+	background-color: blue;
+}
+/*submenu*/
+
+li ul{
+	position: absolute;
+	display: none;
+	min-width: 150px;
+}
+
+li>ul li{
+	border: 1px solid black;
+}
+
+li>ul li:hover{
+    background-color: black;
+}
+
+li:hover >ul{
+	display: block;
+	background-color: blue;
+}
+
+/*submenu*/
+
+.login{
+    width: 400px;
+    height: 450px;
+    background: bisque;
+    margin: 250px auto 0 auto;
+    text-align: center;
+    border-radius: 15px;
+    opacity: 0.8;
+}
+
+.profile{
+    width: 600px;
+    height: auto;
+    background: bisque;
+    margin: 250px auto 0 auto;
+    text-align: center;
+    border-radius: 15px;
+    opacity: 0.8;
+}
+
+.login img{
+    border: 5px solid black;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.usersAdminPage{
+	width: 300px;
+	height:400px;
+	background: bisque;
+	margin: 250px auto 0 auto;
+	text-align: center;
+	border-radius: 15px;
+}
+
+.delete {
+	width: 150px;
+	height: 30px;
+	margin-top: 20px;
+	color: black;
+	font-size: 18px;
+	font-weight: bold;
+	text-shadow: 0px -1px 0px #5b6ddc;
+	outline: none;
+	border: 1px solid;
+}
+span{
+	font-size: 20px;
+}
+.addGame{
+	width: 600px;
+	height: auto;
+	background: bisque;
+	margin: 250px auto 0 auto;
+	text-align: center;
+	border-radius: 15px;
+	padding-left: 10px;
+	padding-top: 32px;
+	border-style: solid;
+}
+
+.addGame > div{
+	width: 250px;
+	height: 250px;
+	margin: 100px auto 0 auto;
+	text-align: center;
+	border-radius: 15px;
+	background: black;
+}
+.friend{
+	width: 300px;
+	height:auto;
+	background: bisque;
+	margin: 250px auto 0 auto;
+	text-align: center;
+	border-radius: 15px;
+	border-style: solid;
+}

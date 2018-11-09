@@ -5,23 +5,32 @@ import java.util.List;
 
 public class User  {
 
-    private int id;
+    private long id;
     private String login;
     private String password;
     private Date dateOfBirthday;
     private String eMail;
     private String name;
     private String sName;
-    private List<Address> addresses;
+    private long addressId;
+    private Address address;
     private List<User> friends;
     private List<Game> ownedGames;
-    private boolean isAdmin;
+    private boolean admin;
 
-    public int getId() {
+    public long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(long addressId) {
+        this.addressId = addressId;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -73,12 +82,12 @@ public class User  {
         this.sName = sName;
     }
 
-    public List<Address> getAddresses() {
-        return addresses;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public List<User> getFriends() {
@@ -98,9 +107,52 @@ public class User  {
     }
 
     public boolean isAdmin() {
-        return isAdmin;
+        return admin;
     }
 
     public User() {
     }
+
+    public User(int id) {
+        this.id = id;
+    }
+
+    public User(boolean admin){
+        this.admin = admin;
+    }
+
+    public User(long id, Date dateOfBirthday, String eMail, String name, String sName){
+        this.id = id;
+        this.dateOfBirthday = dateOfBirthday;
+        this.eMail = eMail;
+        this.name = name;
+        this.sName = sName;
+    }
+
+
+    public User(long id, Date dateOfBirthday, String eMail, String name, String sName,Address address){
+        this.id = id;
+        this.dateOfBirthday = dateOfBirthday;
+        this.eMail = eMail;
+        this.name = name;
+        this.sName = sName;
+        this.address = address;
+    }
+
+
+    public User(long id, String login, String password, Date dateOfBirthday, String eMail, String name, String sName,
+                Address address, List<User> friends, List<Game> ownedGames, boolean admin) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.dateOfBirthday = dateOfBirthday;
+        this.eMail = eMail;
+        this.name = name;
+        this.sName = sName;
+        this.address = address;
+        this.friends = friends;
+        this.ownedGames = ownedGames;
+        this.admin = admin;
+    }
+
 }

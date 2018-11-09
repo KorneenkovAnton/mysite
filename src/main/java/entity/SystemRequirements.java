@@ -2,6 +2,7 @@ package entity;
 
 
 public class SystemRequirements {
+    private long id;
     private String operationSystem;
     private String cpuName;
     private double cpuFrequency;
@@ -9,6 +10,14 @@ public class SystemRequirements {
     private String videoAdapterName;
     private int videoAdapterMemory;
     private int freeSpace;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getOperationSystem() {
         return operationSystem;
@@ -66,8 +75,9 @@ public class SystemRequirements {
         this.freeSpace = freeSpace;
     }
 
-    public SystemRequirements(String operationSystem, String cpuName, double cpuFrequency, int ram,
+    public SystemRequirements(long id,String operationSystem, String cpuName, double cpuFrequency, int ram,
                               String videoAdapterName, int videoAdapterMemory, int freeSpace) {
+        this.id = id;
         this.operationSystem = operationSystem;
         this.cpuName = cpuName;
         this.cpuFrequency = cpuFrequency;

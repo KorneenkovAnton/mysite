@@ -1,24 +1,25 @@
 package pool;
 
 
+import util.constants.Constants;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class ConnectionPool {
+public class ConnectionPool implements Constants {
     public  static  ConnectionPool instance;
-    private static ResourceBundle rb = ResourceBundle.getBundle("sqlinfo");
+    private static ResourceBundle rb = ResourceBundle.getBundle(PROPERTIES_NAME);
 
-    private final String URL="jdbc:mysql://localhost:3306/site_of_games";
+    private final String URL="jdbc:mysql://localhost:3306/site_of_games?useUnicode=true&characterEncoding=utf8";
     private final String USER = "root";
     private final  String PASSWORD = "1234";
     private final int COUNT_OF_CONNECTIONS = 4;
 
 
-    private ArrayBlockingQueue<Connection> pool = new ArrayBlockingQueue<Connection>(COUNT_OF_CONNECTIONS);
+    private ArrayBlockingQueue<Connection> pool = new ArrayBlockingQueue<>(COUNT_OF_CONNECTIONS);
 
     public static synchronized ConnectionPool getInstance(){
         if(instance == null){
@@ -59,8 +60,8 @@ public class ConnectionPool {
     private void createPoolWithBundle(){
         for(int i = 0; i<Integer.parseInt(rb.getString("count_of_connections"));i++) {
             try {
-                pool.add(DriverManager.getConnection(rb.getString("url"), rb.getString("user"),
-                        rb.getString("password")));
+                pool.add(DriverManager.getConnection(rb.getString(URL_PROP), rb.getString(USER_ATTRIBUTE),
+                        rb.getString(PASSWORD_PROP)));
             } catch (SQLException e) {
                 System.out.println("Connection failed...");
                 e.printStackTrace();

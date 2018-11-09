@@ -2,10 +2,11 @@ package entity;
 
 
 public class Address {
+    private long id;
     private String country;
     private String city;
     private String street;
-    private String numberOfHouse;
+    private int numberOfHouse;
 
     public String getCountry() {
         return country;
@@ -31,15 +32,24 @@ public class Address {
         this.street = street;
     }
 
-    public String getNumberOfHouse() {
+    public int getNumberOfHouse() {
         return numberOfHouse;
     }
 
-    public void setNumberOfHouse(String numberOfHouse) {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setNumberOfHouse(int numberOfHouse) {
         this.numberOfHouse = numberOfHouse;
     }
 
-    public Address(String country, String city, String street, String numberOfHouse) {
+    public Address(long id, String country, String city, String street, int numberOfHouse) {
+        this.id = id;
         this.country = country;
         this.city = city;
         this.street = street;
