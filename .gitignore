@@ -72,8 +72,3 @@ fabric.properties
 
 src/test/
 target/
-web/WEB-INF/pages/Donate.jsp
-web/images/flag_russia.png
-web/images/flag_united_kingdom.png
-web/posters/_-Rv3NlZgJs.jpg
-web/posters/image.jpg
