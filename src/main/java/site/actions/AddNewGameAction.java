@@ -1,12 +1,14 @@
 package site.actions;
 
+import DAO.DAO;
 import DAO.GameDAO;
+import DAO.GameDAOImpl;
 import DAO.SystemRequirementsDAO;
 import entity.Game;
 import org.apache.commons.fileupload.FileUploadException;
 import pool.ConnectionPool;
 import util.constants.Constants;
-import util.download.Uploader;
+import util.uploader.Uploader;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +26,8 @@ public class AddNewGameAction implements Action,Constants {
         Connection connection = pool.getConnection();
         Game game = (Game) session.getAttribute(ADDED_GAME);
         Uploader posterUploader = new Uploader();
-        GameDAO gameDAO = new GameDAO();
-        SystemRequirementsDAO systemRequirementsDAO = new SystemRequirementsDAO();
+        GameDAO gameDAO = new GameDAOImpl();
+        DAO systemRequirementsDAO = new SystemRequirementsDAO();
 
         try {
             game.setPosterLink(POSTERS_FOLDER + posterUploader.uploadFile(request).getName());
@@ -34,14 +36,19 @@ public class AddNewGameAction implements Action,Constants {
             systemRequirementsDAO.addToDatabase(game.getRecommendedSystemRequirements(),connection);
             gameDAO.addToDatabase(game,connection);
             connection.commit();
+            request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
 
+        }catch (SQLException e){
+          e.printStackTrace();
+            request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
+          throw new SQLException("AddNewGameAction");
         } catch (FileUploadException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+            pool.closeConnection(connection);
         }
-
-
         return MAIN_PAGE_DIR;
     }
 }

@@ -15,7 +15,7 @@ public interface Constants {
     String DELETE_ADDRESS = "DELETE FROM address WHERE id = ?";
     String GET_ADDRESS = "SELECT address.* FROM address inner JOIN user on address.id = user.addressID WHERE user.userID = ?";
 
-    //GameDAO
+    //GameDAOImpl
     String GAME_ID_COLUMN = "id";
     String GAME_NAME_COLUMN = "name";
     String COAST_COLUMN = "cost";
@@ -35,6 +35,13 @@ public interface Constants {
     String DELETE_LINKS = "DELETE FROM user_game WHERE gameID = ?";
     String DELETE_USER_GAME = "DELETE FROM user_game WHERE userID = ? AND gameID = ?";
     String GAME_TO_USER = "INSERT INTO user_game(userID,gameID) VALUES (?,?)";
+    String DELETE_ALL_USER_GAMES = "DELETE FROM user_game WHERE userID = ?";
+    String COUNT_OF_RECORDS_IN_GAME_TABLE = "SELECT COUNT(*) AS count FROM game";
+    String COUNT_OF_FOUNDED_RECORDS_IN_GAME_TABLE = "SELECT COUNT(*) AS count FROM game WHERE name LIKE ?";
+    String COUNT_OF_RECORDS_IN_USER_TABLE = "SELECT COUNT(*) AS count FROM user";
+    String COUNT = "count";
+    String SEARCH_GAME = "SELECT * FROM game WHERE name LIKE ? LIMIT ?,?";
+    String SEARCH_GAME_NAME = "getGameByName";
 
     //SystemRequirementsDAO
     String ID_SYS = "id";
@@ -52,10 +59,8 @@ public interface Constants {
     String DELETE_SYS = "DELETE FROM system_requirements WHERE id = ?";
     String GET_SYS = "SELECT * FROM system_requirements WHERE id = ?";
 
-    //UserAddressJoinDAO
-    String SELECT_ALL_USERS_JOIN_ADDRESS = "SELECT * FROM user LEFT JOIN address ON user.addressID = address.id LIMIT ?,?";
 
-    //UserDAO
+    //UserDAOImpl
     String USERID_COLUMN = "userID";
     String USERLOGIN_COLUMN = "userLogin";
     String USERPASSWORD_COLUMN = "userPassword";
@@ -67,22 +72,29 @@ public interface Constants {
     String ADDRESS_ID = "addressID";
     String INSERT_USER = "INSERT INTO user(userLogin,userPassword, dateOfBirthday,email,name,sname,addressID)" +
            " VALUES (?,?,?,?,?,?,?)";
-    String DELETE_USER = "DELETE FROM user WHERE userLogin = ? AND userPassword = ?";
     String SELECT_BY_ID = "SELECT * FROM user WHERE userID = ?";
     String SELECT_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE userLogin = ? AND userPassword = ?";
     String UPADTE_USER ="UPDATE IGNORE user SET name =? ,sname = ?, userPassword = ?, dateOfBirthday = ?," +
             "email = ? WHERE userID = ?";
-    String GET_ALL = "SELECT * FROM user";
+    String GET_ALL = "SELECT * FROM user WHERE userID != ? LIMIT ?,?";
+    String DONATE = "UPDATE user SET money = money + ? WHERE userID = ?";
+    String MONEY_COLUMN = "money";
+    String BY_GAME = "UPDATE user SET money = money - (SELECT game.cost FROM game WHERE id = ?) WHERE userID = ?";
+    String UPDATE_ADMIN_ROLE = "UPDATE user SET admin = 1 WHERE userID = ?";
 
-    //UserFriendDAO
+    //UserFriendDAOImpl
     String ADD_FRIEND = "INSERT INTO user_user(userID, userFriendID) VALUES (?,?)";
-    String CHECK_REL = "SELECT status FROM user_user WHERE userID = ?, userFriendID = ?";
+    String CHECK_REL = "SELECT status FROM user_user WHERE (userID = ? AND userFriendID = ?) OR (userID = ? AND userFriendID = ?)";
     String GET_ALL_USER_FRIENDS = "SELECT user.userID,dateOfBirthday,email,user.name,sname " +
             "FROM user_user INNER JOIN user ON (user_user.userFriendID = user.userID OR user_user.userID = user.userID) " +
-            "WHERE (user_user.userID = ? OR userFriendID = ?) AND  user_user.status = ? AND user.userID !=?";
+            "WHERE (user_user.userID = ? OR userFriendID = ?) AND  user_user.status = 1 AND user.userID !=?";
+    String GET_ALL_USER_FRIEND_REQUESTS = "SELECT user.userID,dateOfBirthday,email,user.name,sname " +
+            "FROM user_user INNER JOIN user ON (user_user.userID = user.userID) " +
+            "WHERE (userFriendID = ?) AND  user_user.status = 0 AND user.userID !=?";;
     String DELETE_FRIEND = "DELETE FROM user_user WHERE (userID = ? AND userFriendID = ?) OR (userID = ? AND userFriendID = ?)";
-    String CONFIRM_FRIEND = "UPDATE user_user SET status = 1 WHERE userID = ? AND userFriendID = ?";
+    String CONFIRM_FRIEND = "UPDATE user_user SET status = 1 WHERE (userID = ? AND userFriendID = ?)";
     String DELETE_ALL_FRIENDS = "DELETE FROM user_user WHERE userID = ? OR userFriendID  = ?";
+    String DELETE_USER_BY_ID = "DELETE FROM user WHERE user.userID = ?";
 
 
     //ActionConstants
@@ -91,38 +103,61 @@ public interface Constants {
     String DELETTING_USER = "deletingUser";
     String DELETTING_ADDRESS = "deletingAddress";
     String GAMES_ATTRIBUTE = "games";
+    String COUNT_OF_PAGES_ATTRIBUTE = "countOfPages";
     String ADDED_GAME = "addedGame";
-    String CURRENT_ACTION_ATTRIBUTE = "currentAction";
+    String NEW_ADMIN_ID = "newAdminId";
+    String OPERATION_STATUS = "operationStatus";
+    String LANGUAGE = "lan";
     String GET_USER_DIR = "/getUser";
-    String LOGIN_DIR = "/mainPage/login";
-    String PROFILE_DIR = "/mainPage/profile";
     String UPDATE_USER_DIR = "/updateUser";
     String MAIN_PAGE_DIR = "/mainPage";
-    String MAIN_PAGE_JSP_DIR = "/MainPage.jsp";
-    String LOGIN_JSP_DIR = "/Login.jsp";
-    String PROFILE_JSPX_DIR = "/Profile.jspx";
+    String LOGIN_JSP = "/WEB-INF/pages/Login.jsp";
     String CURRENT_PAGE = "currentPage";
-    String ALL_USERS_JSPX_DIR = "/AllUsers.jspx";
+    String ALL_USERS_PAGE_JSP = "/WEB-INF/pages/AllUsers.jsp";
     String DELERED_GAME = "deletedGame";
-    String SHOW_GAMES = "/ShowGames.jspx";
+    String SHOW_GAMES_JSP = "/WEB-INF/pages/ShowGames.jsp";
     String GAMES_DIR = "/games";
     String USERS_DIR = "/users";
     String DELETE_USER_DIR = "/deleteUser";
-    String REGISTER_NEW_USER_PAGE_DIR ="/register";
     String REGISTER_NEW_USER = "/registerUser";
     String DELETE_GAME_FROM_DATABASE = "/deleteGame";
     String MY_GAMES_DIR = "/mainPage/myGames";
-    String ADD_NEW_GAME_DIR = "/mainPage/addNewGame";
-    String ADD_PAGE_JSPX = "/AddNewGame.jspx";
-    String ADD_POSTER_JSPX = "/AddNewGamePoster.jspx";
+    String ADD_GAME_PAGE_JSP = "/WEB-INF/pages/AddNewGame.jsp";
+    String ADD_POSTER_JSP = "/WEB-INF/pages/AddNewGamePoster.jsp";
     String ADD_POSTER = "/addGameWithPoster";
     String ADD_GAME = "/addGame";
     String ADD_GAME_TO_USER = "/addGameToUser";
-    String REGISTER_PAGE_JSPX = "/RegisterPage.jspx";
+    String REGISTER_PAGE_JSP = "/WEB-INF/pages/RegisterPage.jsp";
     String SHOW_MY_FRIENDS_DIR = "/mainPage/myFriends/friends";
     String SHOW_MY_REQUESTS = "/mainPage/myFriends/requests";
     String DELETE_FRIEND_DIR = "/deleteFriend";
-    String USER_FRIENDS_JSPX = "/UserFriends.jspx";
+    String USER_FRIENDS_JSP = "/WEB-INF/pages/UserFriends.jsp";
+    String PROFILE_JSP = "/WEB-INF/pages/Profile.jsp";
+    String DONATE_JSP = "/WEB-INF/pages/Donate.jsp";
+    String SHOW_SEARCH_GAME_JSP = "/WEB-INF/pages/ShowSearchGame.jsp";
+    String FRIEND_ID = "friendID";
+    String STATUS = "status";
+    String ADD_FRIEND_ID = "addFriendID";
+    String CONFIRM_FRIEND_ACTION = "/confirmFriend";
+    String ADD_FRIEND_ACTION = "/addFriend";
+    String LANGUAGE_ACTION = "/lan";
+    String DONATE_ACTION = "/donate";
+    String SHOW_MY_GAMES = "/WEB-INF/pages/ShowMyGames.jsp";
+    String LOGOUT_ACTION = "/logout";
+    String SET_ADMIN_ACTION = "/setAdmin";
+    String SHOW_REGISTER_PAGE = "/register";
+    String SHOW_LOGIN_PAGE = "/login";
+    String SHOW_ADD_NEW_GAME_PAGE = "/addNewGame";
+    String SHOW_PROFILE_PAGE = "/profile";
+    String SHOW_DONATE_PAGE = "/donatePage";
+    String SEARCH_GAME_ACTION = "/searchGame";
+
+    //OperationStatus
+    String OPERATION_SUCCESS = "Success";
+    String OPERATION_ERROR = "Error";
+    String OPERATION_WRONG_ID = "Unexpected friend id";
+    String NOT_ENOUGH_MONEY = "Not enough money";
+    String GAME_VALIDATION_ERROR = "Validation error";
 
 
     //Creator
@@ -142,6 +177,7 @@ public interface Constants {
     String ADAPTER_NAME_SYS_REC = "videoAdapterNameRec";
     String ADAPTER_MEM_SYS_REC = "videoAdaptermMemoryRec";
     String FREE_SPACE_SYS_REC = "freeSpaceRec";
+    String DONATE_ATTRIBUTE = "donate";
 
     //Uploader
     String PROPERTIES_NAME = "info";
@@ -156,6 +192,7 @@ public interface Constants {
     int FIGHTING_ID = 4;
     int RPG_ID = 5;
     int SHOOTER_ID = 3;
+
 }
 
 

@@ -7,12 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 /**
- * Created by Антон on 24.10.2018.
+ * Created by Антон on 09.03.2019.
  */
-public class ShowAddGamePageAction implements Action,Constants {
+public class ShowAddNewGamePageAction implements Action,Constants {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        request.setAttribute(CURRENT_ACTION_ATTRIBUTE,ADD_PAGE_JSPX);
-        return MAIN_PAGE_JSP_DIR;
+        return ADD_GAME_PAGE_JSP;
     }
 }

@@ -9,15 +9,15 @@
     </servlet>
     <filter>
         <filter-name>EncodingFilter</filter-name>
-       <filter-class>site.filter.EncodingFilter</filter-class>
-    <init-param>
-        <param-name>encoding</param-name>
-        <param-value>UTF-8</param-value>
-    </init-param>
+        <filter-class>site.filter.EncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
-    <filter-name>EncodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
@@ -29,11 +29,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
-        <url-pattern>/mainPage/login</url-pattern>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
-        <url-pattern>/mainPage/profile</url-pattern>
+        <url-pattern>/profile</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
@@ -102,5 +102,37 @@
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/confirmFriend</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/addFriend</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/lan</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/donate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/setAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/addNewGame</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/donatePage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/searchGame</url-pattern>
     </servlet-mapping>
 </web-app>

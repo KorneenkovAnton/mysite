@@ -1,6 +1,7 @@
 package site.actions;
 
 import DAO.UserFriendDAO;
+import DAO.UserFriendDAOImpl;
 import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
@@ -17,22 +18,21 @@ public class MyFriendsAction implements Action, Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        UserFriendDAO userFriendDAO = new UserFriendDAO();
+        UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
-        int status = Integer.parseInt(request.getParameter("status"));
 
         try{
-            user.setFriends(userFriendDAO.selectAllFriendsOfUser(user,connection,status));
-            pool.closeConnection(connection);
+            user.setFriends(userFriendDAO.selectAllFriendsOfUser(user,connection));
         }catch (SQLException e){
             e.printStackTrace();
+            throw new SQLException("MyFriendsAction");
+        }finally {
             pool.closeConnection(connection);
-            throw new SQLException("from MyFriendsAction");
         }
 
-        request.setAttribute(USER_ATTRIBUTE,user);
-        request.setAttribute("status",status);
-        request.setAttribute(CURRENT_ACTION_ATTRIBUTE, USER_FRIENDS_JSPX);
-        return MAIN_PAGE_JSP_DIR;
+        session.setAttribute(USER_ATTRIBUTE,user);
+        request.setAttribute(STATUS,1);
+
+        return USER_FRIENDS_JSP;
     }
 }

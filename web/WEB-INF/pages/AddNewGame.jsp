@@ -1,11 +1,21 @@
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
-          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
-    <html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<html>
     <head><title>AddGame</title>
-        <link href = "style.css" rel = "stylesheet" type = "text/css"/>
+        <link href = "../../style.css" rel = "stylesheet" type = "text/css"/>
+        <c:choose>
+            <c:when test="${lan != null}">
+                <fmt:setLocale value="${lan}"/>
+            </c:when>
+            <c:otherwise>
+                <fmt:setLocale value="en_US"/>
+            </c:otherwise>
+        </c:choose>
         <fmt:setBundle basename="resources" var = "bundle"/>
     </head>
     <body>
+    <jsp:include page="MainPage.jsp"/>
     <div class="addGame">
         <form action="/addGame" method="post">
             <div>
@@ -26,7 +36,7 @@
             </div>
             <div>
                 <label for="desc"><fmt:message key="text.dev" bundle="${bundle}"/> </label>
-                <input id = "dev" type="text" name="developer" required="required"/>
+                <input id = "dev" type="text" name="developer" required="required" pattern="^[a-zA-Z0-9]+$"/>
             </div>
 
             <label><fmt:message key="text.min_sys_req" bundle="${bundle}"/></label><br/><br/>
@@ -69,37 +79,35 @@
     <div class="recSys">
         <div>
             <label><fmt:message key="text.OS" bundle="${bundle}"/> </label>
-            <input type="text" name="operationSystemRec" required="required"/>
+            <input type="text" name="operationSystemRec" required="required" pattern="^[a-zA-Z]+$"/>
         </div>
         <div>
             <label><fmt:message key="text.cpu_name" bundle="${bundle}"/> </label>
-            <input  type="text" name="cpuNameRec" required="required"/>
+            <input  type="text" name="cpuNameRec" required="required" pattern="^[a-zA-Z]+$"/>
         </div>
         <div>
             <label><fmt:message key="text.cpu_freq" bundle="${bundle}"/> </label>
-            <input type="text" name="cpuFrequencyRec" required="required"/>
+            <input type="text" name="cpuFrequencyRec" required="required" pattern="\d+(\.\d{1})?"/>
         </div>
         <div>
             <label><fmt:message key="text.ram" bundle="${bundle}"/> </label>
-            <input  type="text" name="ramRec" required="required"/>
+            <input  type="text" name="ramRec" required="required" pattern="^[ 0-9]+$"/>
         </div>
         <div>
             <label for="adapterNameMin"><fmt:message key="text.video_adapter_name" bundle="${bundle}"/> </label>
-            <input  type="text" name="videoAdapterNameRec" required="required"/>
+            <input  type="text" name="videoAdapterNameRec" required="required" pattern="^[a-zA-Z]+$"/>
         </div>
         <div>
             <label for="adapterMemMin"><fmt:message key="text.video_adapter_memory" bundle="${bundle}"/> </label>
-            <input  type="text" name="videoAdaptermMemoryRec" required="required"/>
+            <input  type="text" name="videoAdaptermMemoryRec" required="required" pattern="^[ 0-9]+$"/>
         </div>
         <div>
             <label for="freeSpaceMin"><fmt:message key="text.free_space" bundle="${bundle}"/> </label>
-            <input  type="text" name="freeSpaceRec" required="required"/>
+            <input  type="text" name="freeSpaceRec" required="required" pattern="^[ 0-9]+$"/>
         </div>
     </div>
     <input class="enter" type="submit" name="submit" value="ADD"/>
     </form>
     </div>
-
-</body>
-        </html>
-</jsp:root>
+    </body>
+</html>

@@ -14,15 +14,15 @@ public class UserCreator implements Creator<User>, Constants {
     public User create(HttpServletRequest request) {
         User user = new User();
         Address address = new Address();
-        /*try {
-            user.setId(Integer.parseInt(request.getParameter(ID_COLUMN)));
-        }catch (NullPointerException e){
-            System.out.println("register");
-        }catch (NumberFormatException e){
-            System.out.println("register");
-        }*/
-
         SimpleDateFormat simpleDateFormat  = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            user.setId(Long.parseLong(request.getParameter("id")));
+        }catch (NumberFormatException e){
+            System.out.println("new user");
+        }
+
+
         user.setName(request.getParameter(NAME_COLUMN));
         user.setsName(request.getParameter(SNAME_COLUMN));
         user.setLogin(request.getParameter(LOGIN));
@@ -38,6 +38,7 @@ public class UserCreator implements Creator<User>, Constants {
         address.setStreet(request.getParameter(STREET_COLUMN));
         address.setNumberOfHouse(Integer.parseInt(request.getParameter(NUMBER_COLUMN)));
         user.setAddress(address);
+
         return user;
     }
 }

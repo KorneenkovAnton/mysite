@@ -20,23 +20,25 @@ public class RegisterUserAction implements Action, Constants {
         Connection connection = pool.getConnection();
         Creator creator = new UserCreator();
         User user = (User) creator.create(request);
-        AddressDAO addressDAO = new AddressDAO();
-        UserDAO userDAO = new UserDAO();
-
-        request.setAttribute(CURRENT_ACTION_ATTRIBUTE , REGISTER_PAGE_JSPX);
+        DAO addressDAO = new AddressDAO();
+        UserDAO userDAOImpl = new UserDAOImpl();
+        String answer = REGISTER_PAGE_JSP;
 
         try {
             connection.setAutoCommit(false);
             addressDAO.addToDatabase(user,connection);
-            userDAO.addToDatabase(user,connection);
+            userDAOImpl.addToDatabase(user,connection);
             connection.commit();
-            pool.closeConnection(connection);
-            request.setAttribute(CURRENT_ACTION_ATTRIBUTE,LOGIN_JSP_DIR);
+            answer = LOGIN_JSP;
+            request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
         }catch (SQLException e){
             connection.rollback();
-            pool.closeConnection(connection);
             e.printStackTrace();
+            request.setAttribute(OPERATION_STATUS, OPERATION_ERROR);
+            throw new SQLException("RegisterUserAction");
+        }finally {
+            pool.closeConnection(connection);
         }
-        return MAIN_PAGE_JSP_DIR;
+        return answer;
     }
 }

@@ -1,4 +1,4 @@
-package util.download;
+package util.uploader;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -20,10 +20,10 @@ public class Uploader implements Constants {
         ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
         List<FileItem> items = servletFileUpload.parseRequest(request);
         File file = null;
-        Iterator<FileItem> iter = items.iterator();
+        Iterator<FileItem> iterator = items.iterator();
 
-        while (iter.hasNext()){
-            FileItem item = iter.next();
+        while (iterator.hasNext()){
+            FileItem item = iterator.next();
             if(!item.isFormField()){
                 file = new File(rb.getString(POSTER_DIR).trim()+item.getName());
                 if(!file.exists()){

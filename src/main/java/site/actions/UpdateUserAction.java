@@ -1,13 +1,17 @@
 package site.actions;
 
 import DAO.AddressDAO;
+import DAO.DAO;
 import DAO.UserDAO;
+import DAO.UserDAOImpl;
 import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
 import util.creator.AddressCreator;
 import util.creator.Creator;
 import util.creator.UserCreator;
+import util.validator.UserValidator;
+import util.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,24 +26,34 @@ public class UpdateUserAction implements Action, Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        Creator creator = new UserCreator();
-        User  user = (User) creator.create(request);
+        Creator<User> creator = new UserCreator();
+        Validator<User> validator = new UserValidator();
+        User userOld = (User) session.getAttribute(USER_ATTRIBUTE);
+        User  user = creator.create(request);
         user.setAddress(new AddressCreator().create(request));
-        UserDAO userDAO = new UserDAO();
-        AddressDAO addressDAO = new AddressDAO();
-        if(user != null){
+        user.setMoney(userOld.getMoney());
+        UserDAO userDAOImpl = new UserDAOImpl();
+        DAO addressDAO = new AddressDAO();
+
+        if(user != null && validator.validate(user)){
             try {
                 connection.setAutoCommit(false);
-                userDAO.update(user,connection);
+                userDAOImpl.update(user,connection);
                 addressDAO.update(user,connection);
                 connection.commit();
-                pool.closeConnection(connection);
                 session.setAttribute(USER_ATTRIBUTE,user);
+                request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
             }
             catch (SQLException e){
                 connection.rollback();
+                e.printStackTrace();
+                request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
+                throw new SQLException("UpdateUserAction");
+            }finally {
                 pool.closeConnection(connection);
             }
+        }else {
+            request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
         }
         return MAIN_PAGE_DIR;
     }

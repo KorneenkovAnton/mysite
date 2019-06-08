@@ -16,6 +16,7 @@ public class User  {
     private Address address;
     private List<User> friends;
     private List<Game> ownedGames;
+    private int money;
     private boolean admin;
 
     public long getAddressId() {
@@ -110,6 +111,15 @@ public class User  {
         return admin;
     }
 
+
+    public int getMoney() {
+        return money;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
     public User() {
     }
 
@@ -129,6 +139,14 @@ public class User  {
         this.sName = sName;
     }
 
+    public User(long id, Date dateOfBirthday, String eMail, String name, String sName,boolean admin){
+        this.id = id;
+        this.dateOfBirthday = dateOfBirthday;
+        this.eMail = eMail;
+        this.name = name;
+        this.sName = sName;
+        this.admin = admin;
+    }
 
     public User(long id, Date dateOfBirthday, String eMail, String name, String sName,Address address){
         this.id = id;
@@ -141,7 +159,7 @@ public class User  {
 
 
     public User(long id, String login, String password, Date dateOfBirthday, String eMail, String name, String sName,
-                Address address, List<User> friends, List<Game> ownedGames, boolean admin) {
+                Address address, List<User> friends, List<Game> ownedGames, boolean admin , int money) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -153,6 +171,7 @@ public class User  {
         this.friends = friends;
         this.ownedGames = ownedGames;
         this.admin = admin;
+        this.money = money;
     }
 
 }

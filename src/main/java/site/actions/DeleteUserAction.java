@@ -1,9 +1,7 @@
 package site.actions;
 
 
-import DAO.AddressDAO;
-import DAO.UserDAO;
-import DAO.UserFriendDAO;
+import DAO.*;
 import entity.Address;
 import entity.User;
 import pool.ConnectionPool;
@@ -19,32 +17,38 @@ public class DeleteUserAction implements Action, Constants {
     private  final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        String answer = null;
         Connection connection = pool.getConnection();
-        int idOfDelettingUser = Integer.parseInt(request.getParameter(DELETTING_USER));
+        int idOfDeletedUser = Integer.parseInt(request.getParameter(DELETTING_USER));
         int idOfAddress = Integer.parseInt(request.getParameter(DELETTING_ADDRESS));
-        User delettingUser = new User();
-        delettingUser.setId(idOfDelettingUser);
-        delettingUser.setAddress(new Address());
-        delettingUser.getAddress().setId(idOfAddress);
+        UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
+        GameDAO gameDAO = new GameDAOImpl();
+        UserDAO userDAO = new UserDAOImpl();
+        User deletedUser = new User();
+        deletedUser.setId(idOfDeletedUser);
+        deletedUser.setAddress(new Address());
+        deletedUser.getAddress().setId(idOfAddress);
 
         try {
             connection.setAutoCommit(false);
-            new UserFriendDAO().deleteAllFriendsOfUser(delettingUser,connection);
-            new UserDAO().delete(delettingUser,connection);
+            userFriendDAO.deleteAllFriendsOfUser(deletedUser,connection);
+            gameDAO.deleteAllUserGames(deletedUser,connection);
+            userDAO.delete(deletedUser,connection);
             connection.commit();
-            answer = MAIN_PAGE_JSP_DIR;
-            pool.closeConnection(connection);
+            request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
         }catch (SQLException e){
             connection.rollback();
-            pool.closeConnection(connection);
+            e.printStackTrace();
+            request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
+            throw new SQLException("DeleteUserAction");
         }
         try {
-            new AddressDAO().delete(delettingUser,connection);
+            new AddressDAO().delete(deletedUser,connection);
         }catch (SQLException e){
             System.out.println("address is used");
+        }finally {
+            pool.closeConnection(connection);
         }
 
-        return answer;
+        return MAIN_PAGE_DIR;
     }
 }

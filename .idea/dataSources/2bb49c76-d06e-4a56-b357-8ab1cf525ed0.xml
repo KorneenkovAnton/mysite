@@ -12,318 +12,341 @@
     <schema id="6" parent="1" name="mysql"/>
     <schema id="7" parent="1" name="performance_schema"/>
     <schema id="8" parent="1" name="sys"/>
-    <table id="9" parent="2" name="address"/>
-    <table id="10" parent="2" name="game"/>
-    <table id="11" parent="2" name="game_system_requirements"/>
-    <table id="12" parent="2" name="system_requirements"/>
-    <table id="13" parent="2" name="user"/>
-    <table id="14" parent="2" name="user_address"/>
+    <schema id="9" parent="1" name="test"/>
+    <table id="10" parent="2" name="address"/>
+    <table id="11" parent="2" name="game"/>
+    <table id="12" parent="2" name="genre"/>
+    <table id="13" parent="2" name="system_requirements"/>
+    <table id="14" parent="2" name="user"/>
     <table id="15" parent="2" name="user_game"/>
     <table id="16" parent="2" name="user_user"/>
-    <column id="17" parent="9" name="id">
+    <column id="17" parent="10" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="18" parent="9" name="country">
+    <column id="18" parent="10" name="country">
       <Position>2</Position>
       <DataType>varchar(45)|0</DataType>
     </column>
-    <column id="19" parent="9" name="city">
+    <column id="19" parent="10" name="city">
       <Position>3</Position>
       <DataType>varchar(45)|0</DataType>
     </column>
-    <column id="20" parent="9" name="street">
+    <column id="20" parent="10" name="street">
       <Position>4</Position>
       <DataType>varchar(45)|0</DataType>
     </column>
-    <column id="21" parent="9" name="numberOfHouse">
+    <column id="21" parent="10" name="numberOfHouse">
       <Position>5</Position>
       <DataType>int(11)|0</DataType>
     </column>
-    <index id="22" parent="9" name="id_UNIQUE">
+    <index id="22" parent="10" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="23" parent="9" name="PRIMARY">
+    <key id="23" parent="10" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="24" parent="9" name="id_UNIQUE">
+    <key id="24" parent="10" name="id_UNIQUE">
       <ColNames>id</ColNames>
       <UnderlyingIndexName>id_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="25" parent="10" name="id">
+    <column id="25" parent="11" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="26" parent="10" name="name">
+    <column id="26" parent="11" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="27" parent="10" name="coast">
-      <Position>3</Position>
-      <DataType>varchar(45)|0</DataType>
-    </column>
-    <column id="28" parent="10" name="releaseDate">
+    <column id="27" parent="11" name="releaseDate">
       <Position>4</Position>
       <DataType>date|0</DataType>
     </column>
-    <column id="29" parent="10" name="description">
+    <column id="28" parent="11" name="description">
       <Position>5</Position>
-      <DataType>varchar(200)|0</DataType>
+      <DataType>varchar(600)|0</DataType>
     </column>
-    <column id="30" parent="10" name="developer">
+    <column id="29" parent="11" name="developer">
       <Position>6</Position>
       <DataType>varchar(45)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="31" parent="10" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="32" parent="11" name="gameID">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="33" parent="11" name="systemID">
-      <Position>2</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <index id="34" parent="11" name="systemID">
-      <ColNames>systemID</ColNames>
-    </index>
-    <key id="35" parent="11" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>gameID
-systemID</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="36" parent="11" name="game_system_requirements_ibfk_1">
-      <ColNames>gameID</ColNames>
-      <RefSchemaName>site_of_games</RefSchemaName>
-      <RefTableName>game</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <foreign-key id="37" parent="11" name="game_system_requirements_ibfk_2">
-      <ColNames>systemID</ColNames>
-      <RefSchemaName>site_of_games</RefSchemaName>
-      <RefTableName>system_requirements</RefTableName>
-      <RefColNames>id</RefColNames>
-    </foreign-key>
-    <column id="38" parent="12" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-    </column>
-    <column id="39" parent="12" name="operationSystem">
-      <Position>2</Position>
-      <DataType>varchar(45)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="40" parent="12" name="cpuName">
-      <Position>3</Position>
-      <DataType>varchar(45)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="41" parent="12" name="cpuFrequency">
-      <Position>4</Position>
-      <DataType>decimal(1,1)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="42" parent="12" name="ram">
-      <Position>5</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="43" parent="12" name="videAdapterName">
-      <Position>6</Position>
-      <DataType>varchar(45)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="44" parent="12" name="videoAdaptermMemory">
+    <column id="30" parent="11" name="min_system_req">
       <Position>7</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="45" parent="12" name="freeSpace">
+    <column id="31" parent="11" name="rec_system_req">
       <Position>8</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="46" parent="12" name="PRIMARY">
+    <column id="32" parent="11" name="genreID">
+      <Position>9</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="33" parent="11" name="poster_link">
+      <Position>10</Position>
+      <DataType>varchar(150)|0</DataType>
+    </column>
+    <column id="34" parent="11" name="cost">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="35" parent="11" name="min_system_req_idx">
+      <ColNames>min_system_req</ColNames>
+    </index>
+    <index id="36" parent="11" name="rec_system_req_idx">
+      <ColNames>rec_system_req</ColNames>
+    </index>
+    <index id="37" parent="11" name="genreID_idx">
+      <ColNames>genreID</ColNames>
+    </index>
+    <key id="38" parent="11" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="47" parent="13" name="userID">
+    <foreign-key id="39" parent="11" name="min_system_req">
+      <ColNames>min_system_req</ColNames>
+      <RefSchemaName>site_of_games</RefSchemaName>
+      <RefTableName>system_requirements</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="40" parent="11" name="rec_system_req">
+      <ColNames>rec_system_req</ColNames>
+      <RefSchemaName>site_of_games</RefSchemaName>
+      <RefTableName>system_requirements</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="41" parent="11" name="genreID">
+      <ColNames>genreID</ColNames>
+      <RefSchemaName>site_of_games</RefSchemaName>
+      <RefTableName>genre</RefTableName>
+      <RefColNames>genreID</RefColNames>
+    </foreign-key>
+    <column id="42" parent="12" name="genreID">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="48" parent="13" name="userLogin">
+    <column id="43" parent="12" name="genreName">
+      <Position>2</Position>
+      <DataType>varchar(15)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="44" parent="12" name="genre_genreName_uindex">
+      <ColNames>genreName</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="45" parent="12" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>genreID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="46" parent="12" name="genre_genreName_uindex">
+      <ColNames>genreName</ColNames>
+      <UnderlyingIndexName>genre_genreName_uindex</UnderlyingIndexName>
+    </key>
+    <column id="47" parent="13" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="48" parent="13" name="operationSystem">
       <Position>2</Position>
       <DataType>varchar(45)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="49" parent="13" name="userPassword">
+    <column id="49" parent="13" name="cpuName">
       <Position>3</Position>
       <DataType>varchar(45)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="50" parent="13" name="dateOfBirthday">
+    <column id="50" parent="13" name="cpuFrequency">
+      <Position>4</Position>
+      <DataType>float|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="51" parent="13" name="ram">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="52" parent="13" name="videoAdaptermMemory">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="53" parent="13" name="freeSpace">
+      <Position>8</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="54" parent="13" name="videoAdapterName">
+      <Position>6</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="55" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="56" parent="14" name="userID">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="57" parent="14" name="userLogin">
+      <Position>2</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="58" parent="14" name="userPassword">
+      <Position>3</Position>
+      <DataType>varchar(45)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="59" parent="14" name="dateOfBirthday">
       <Position>4</Position>
       <DataType>date|0</DataType>
     </column>
-    <column id="51" parent="13" name="email">
+    <column id="60" parent="14" name="email">
       <Position>5</Position>
       <DataType>varchar(45)|0</DataType>
     </column>
-    <column id="52" parent="13" name="name">
+    <column id="61" parent="14" name="name">
       <Position>6</Position>
       <DataType>varchar(45)|0</DataType>
     </column>
-    <column id="53" parent="13" name="sname">
+    <column id="62" parent="14" name="sname">
       <Position>7</Position>
       <DataType>varchar(45)|0</DataType>
     </column>
-    <column id="54" parent="13" name="admin">
+    <column id="63" parent="14" name="admin">
       <Position>8</Position>
       <DataType>binary(1)|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;0&apos;</DefaultExpression>
     </column>
-    <index id="55" parent="13" name="email_UNIQUE">
+    <column id="64" parent="14" name="addressID">
+      <Position>9</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="65" parent="14" name="money">
+      <Position>10</Position>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <index id="66" parent="14" name="email_UNIQUE">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="56" parent="13" name="userID_UNIQUE">
+    <index id="67" parent="14" name="userID_UNIQUE">
       <ColNames>userID</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="57" parent="13" name="userLogin_UNIQUE">
+    <index id="68" parent="14" name="userLogin_UNIQUE">
       <ColNames>userLogin</ColNames>
       <Unique>1</Unique>
     </index>
-    <index id="58" parent="13" name="userPassword_UNIQUE">
-      <ColNames>userPassword</ColNames>
-      <Unique>1</Unique>
+    <index id="69" parent="14" name="addressID_idx">
+      <ColNames>addressID</ColNames>
     </index>
-    <key id="59" parent="13" name="PRIMARY">
+    <key id="70" parent="14" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userID</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="60" parent="13" name="userID_UNIQUE">
+    <key id="71" parent="14" name="userID_UNIQUE">
       <ColNames>userID</ColNames>
       <UnderlyingIndexName>userID_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="61" parent="13" name="userLogin_UNIQUE">
+    <key id="72" parent="14" name="userLogin_UNIQUE">
       <ColNames>userLogin</ColNames>
       <UnderlyingIndexName>userLogin_UNIQUE</UnderlyingIndexName>
     </key>
-    <key id="62" parent="13" name="userPassword_UNIQUE">
-      <ColNames>userPassword</ColNames>
-      <UnderlyingIndexName>userPassword_UNIQUE</UnderlyingIndexName>
-    </key>
-    <key id="63" parent="13" name="email_UNIQUE">
+    <key id="73" parent="14" name="email_UNIQUE">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>email_UNIQUE</UnderlyingIndexName>
     </key>
-    <column id="64" parent="14" name="userID">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="65" parent="14" name="addressID">
-      <Position>2</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <index id="66" parent="14" name="addressID_idx">
-      <ColNames>addressID</ColNames>
-    </index>
-    <key id="67" parent="14" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>userID
-addressID</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="68" parent="14" name="userID">
-      <ColNames>userID</ColNames>
-      <RefSchemaName>site_of_games</RefSchemaName>
-      <RefTableName>user</RefTableName>
-      <RefColNames>userID</RefColNames>
-    </foreign-key>
-    <foreign-key id="69" parent="14" name="addressID">
+    <foreign-key id="74" parent="14" name="addressID">
       <ColNames>addressID</ColNames>
       <RefSchemaName>site_of_games</RefSchemaName>
       <RefTableName>address</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="70" parent="15" name="userID">
+    <column id="75" parent="15" name="userID">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="71" parent="15" name="gameID">
+    <column id="76" parent="15" name="gameID">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="72" parent="15" name="gameID">
+    <index id="77" parent="15" name="gameID">
       <ColNames>gameID</ColNames>
     </index>
-    <key id="73" parent="15" name="PRIMARY">
+    <key id="78" parent="15" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>userID
 gameID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="74" parent="15" name="user_game_ibfk_1">
+    <foreign-key id="79" parent="15" name="user_game_ibfk_1">
       <ColNames>userID</ColNames>
       <RefSchemaName>site_of_games</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>userID</RefColNames>
     </foreign-key>
-    <foreign-key id="75" parent="15" name="user_game_ibfk_2">
+    <foreign-key id="80" parent="15" name="user_game_ibfk_2">
       <ColNames>gameID</ColNames>
       <RefSchemaName>site_of_games</RefSchemaName>
       <RefTableName>game</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="76" parent="16" name="userID">
+    <column id="81" parent="16" name="userID">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="77" parent="16" name="userFriendID">
+    <column id="82" parent="16" name="userFriendID">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="78" parent="16" name="userFriendID">
+    <column id="83" parent="16" name="status">
+      <Position>3</Position>
+      <DataType>binary(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <index id="84" parent="16" name="userFriendID">
       <ColNames>userFriendID</ColNames>
     </index>
-    <index id="79" parent="16" name="userID">
+    <index id="85" parent="16" name="userID">
       <ColNames>userID</ColNames>
     </index>
-    <foreign-key id="80" parent="16" name="user_user_ibfk_1">
+    <foreign-key id="86" parent="16" name="user_user_ibfk_1">
       <ColNames>userID</ColNames>
       <RefSchemaName>site_of_games</RefSchemaName>
       <RefTableName>user</RefTableName>
       <RefColNames>userID</RefColNames>
     </foreign-key>
-    <foreign-key id="81" parent="16" name="user_user_ibfk_2">
+    <foreign-key id="87" parent="16" name="user_user_ibfk_2">
       <ColNames>userFriendID</ColNames>
       <RefSchemaName>site_of_games</RefSchemaName>
       <RefTableName>user</RefTableName>

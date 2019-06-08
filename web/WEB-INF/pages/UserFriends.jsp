@@ -1,10 +1,25 @@
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
-          xmlns:c="http://java.sun.com/jsp/jstl/core">
-    <html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
     <head><title>Friends</title>
         <link href="${pageContext.request.contextPath}/style.css" type="text/css" rel="stylesheet"/>
+        <fmt:setBundle basename="resources" var = "bundle"/>
+        <c:choose>
+            <c:when test="${lan != null}">
+                <fmt:setLocale value="${lan}"/>
+            </c:when>
+            <c:otherwise>
+                <fmt:setLocale value="en_US"/>
+            </c:otherwise>
+        </c:choose>
     </head>
     <body>
+    <jsp:include page="MainPage.jsp"/>
+    <form action="/addFriend" method="get">
+        <input type="text" name="addFriendID" required = "required" pattern="[0-9]+">
+        <input type="submit" value="ADD">
+    </form>
         <c:forEach var="Friend" items="${user.friends}">
             <div class="friend">
                 <div><span>ID = ${Friend.id}</span></div>
@@ -25,4 +40,4 @@
         </c:forEach>
     </body>
     </html>
-</jsp:root>
+

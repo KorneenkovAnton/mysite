@@ -4,6 +4,9 @@ import entity.Game;
 import util.constants.Constants;
 import util.creator.Creator;
 import util.creator.GameCreator;
+import util.validator.GameValidator;
+import util.validator.SystemReqValidator;
+import util.validator.Validator;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +20,20 @@ public class CreateNewGameAction implements Action,Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Creator creator = new GameCreator();
+        Validator validatorGame = new GameValidator();
+        Validator validatorSys = new SystemReqValidator();
         Game game = (Game) creator.create(request);
-        session.setAttribute(ADDED_GAME,game);
-        request.setAttribute(CURRENT_ACTION_ATTRIBUTE,ADD_POSTER_JSPX);
+        String answer;
 
-        return MAIN_PAGE_JSP_DIR;
+        if(validatorGame.validate(game) && validatorSys.validate(game.getMinimalSystemRequirements()) &&
+                validatorSys.validate(game.getRecommendedSystemRequirements())) {
+            session.setAttribute(ADDED_GAME, game);
+            answer = ADD_POSTER_JSP;
+        }else {
+            request.setAttribute(OPERATION_STATUS,GAME_VALIDATION_ERROR);
+            answer = ADD_GAME_PAGE_JSP;
+        }
+
+        return answer;
     }
 }

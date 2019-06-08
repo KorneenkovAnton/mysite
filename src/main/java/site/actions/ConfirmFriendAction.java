@@ -1,6 +1,7 @@
 package site.actions;
 
 import DAO.UserFriendDAO;
+import DAO.UserFriendDAOImpl;
 import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
@@ -11,28 +12,28 @@ import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/**
- * Created by Антон on 28.10.2018.
- */
+
 public class ConfirmFriendAction implements Action,Constants {
     private  final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        UserFriendDAO userFriendDAO = new UserFriendDAO();
+        UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
-        int friendID = Integer.parseInt(request.getParameter("friendID"));
+        int friendID = Integer.parseInt(request.getParameter(FRIEND_ID));
 
         try {
             userFriendDAO.confirmRel(user,friendID,connection);
-            pool.closeConnection(connection);
+            request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
         }catch (SQLException e){
             e.printStackTrace();
+            request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
+            throw new SQLException("ConfirmFriendAction");
+        }finally {
             pool.closeConnection(connection);
-            throw new SQLException("error in confirmFriend");
         }
 
-        return SHOW_MY_REQUESTS;
+        return MAIN_PAGE_DIR;
     }
 }

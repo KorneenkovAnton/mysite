@@ -1,6 +1,7 @@
 package site.actions;
 
 import DAO.UserFriendDAO;
+import DAO.UserFriendDAOImpl;
 import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
@@ -17,17 +18,19 @@ public class DeleteFriendAction implements Action,Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        UserFriendDAO userFriendDAO = new UserFriendDAO();
+        UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
-        int friendID = Integer.parseInt(request.getParameter("friendID"));
+        int friendID = Integer.parseInt(request.getParameter(FRIEND_ID));
 
         try {
             userFriendDAO.deleteFriend(user,friendID,connection);
-            pool.closeConnection(connection);
+            request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
         }catch (SQLException e){
             e.printStackTrace();
+            request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
+            throw new SQLException("DeleteFriendAction");
+        }finally {
             pool.closeConnection(connection);
-            throw new SQLException("friend wasn't delete");
         }
         return MAIN_PAGE_DIR;
     }

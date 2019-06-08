@@ -1,6 +1,7 @@
 package site.actions;
 
-import DAO.GameDAO;
+import DAO.UserDAO;
+import DAO.UserDAOImpl;
 import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
@@ -11,23 +12,28 @@ import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ShowMyGamesPageAction implements Action, Constants {
+
+public class DonateAction implements Action,Constants {
     private  final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        GameDAO gameDAO = new GameDAO();
+        HttpSession session = request.getSession();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
+        UserDAO userDAO = new UserDAOImpl();
+        int money = Integer.parseInt(request.getParameter(DONATE_ATTRIBUTE));
+
         try {
-            user.setOwnedGames(gameDAO.getUserGames(user,connection));
-            pool.closeConnection(connection);
+            userDAO.donate(user,money,connection);
+            user.setMoney(user.getMoney() + money);
+            session.setAttribute(USER_ATTRIBUTE,user);
+            request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
         }catch (SQLException e){
+            e.printStackTrace();
+            request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
+        }finally {
             pool.closeConnection(connection);
-            throw new SQLException("could not find games"+user.getId());
         }
-        session.setAttribute(USER_ATTRIBUTE,user);
-        request.setAttribute(CURRENT_ACTION_ATTRIBUTE,SHOW_GAMES);
-        return MAIN_PAGE_JSP_DIR;
+        return MAIN_PAGE_DIR;
     }
 }

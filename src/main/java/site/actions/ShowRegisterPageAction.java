@@ -10,7 +10,6 @@ import java.sql.SQLException;
 public class ShowRegisterPageAction implements Action, Constants {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        request.setAttribute(CURRENT_ACTION_ATTRIBUTE,"/RegisterPage.jspx");
-        return MAIN_PAGE_JSP_DIR;
+        return REGISTER_PAGE_JSP;
     }
 }

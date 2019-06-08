@@ -49,9 +49,6 @@ public class AddressDAO implements DAO<Address, User>,Constants {
             preparedStatement.setLong(5, address.getId());
             preparedStatement.executeUpdate();
             closePrepareStatement(preparedStatement);
-        }else {
-
-            throw new SQLException("Updating address failed");
         }
     }
 
