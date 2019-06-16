@@ -13,6 +13,6 @@ public class LanguageAction implements Action,Constants{
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         session.setAttribute(LANGUAGE,request.getParameter(LANGUAGE));
-        return MAIN_PAGE_DIR;
+        return MAIN_PAGE_ACTION;
     }
 }

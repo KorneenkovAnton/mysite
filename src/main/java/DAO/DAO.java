@@ -35,10 +35,10 @@ public interface DAO <T,V> {
         return countOfRecords;
     }
 
-    default int countOfRecordsInSearch(Connection connection,String query,String gameName) throws SQLException {
+    default int countOfRecordsInSearch(Connection connection,String query,String keyWord) throws SQLException {
         int countOfRecords = 0;
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setString(1,gameName);
+        preparedStatement.setString(1,keyWord);
         ResultSet resultSet = preparedStatement.executeQuery();
         if(resultSet.next()) {
             countOfRecords = resultSet.getInt(COUNT);

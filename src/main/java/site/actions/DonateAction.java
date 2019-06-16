@@ -1,7 +1,6 @@
 package site.actions;
 
-import DAO.UserDAO;
-import DAO.UserDAOImpl;
+import DAO.*;
 import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
@@ -20,11 +19,11 @@ public class DonateAction implements Action,Constants {
         Connection connection = pool.getConnection();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
-        UserDAO userDAO = new UserDAOImpl();
+        DAO userDAO = new UserDAOImpl();
         int money = Integer.parseInt(request.getParameter(DONATE_ATTRIBUTE));
 
         try {
-            userDAO.donate(user,money,connection);
+            ((UserDAOImpl)userDAO).donate(user,money,connection);
             user.setMoney(user.getMoney() + money);
             session.setAttribute(USER_ATTRIBUTE,user);
             request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
@@ -34,6 +33,6 @@ public class DonateAction implements Action,Constants {
         }finally {
             pool.closeConnection(connection);
         }
-        return MAIN_PAGE_DIR;
+        return MAIN_PAGE_ACTION;
     }
 }

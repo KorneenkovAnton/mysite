@@ -32,10 +32,10 @@ public class UpdateUserAction implements Action, Constants {
         User  user = creator.create(request);
         user.setAddress(new AddressCreator().create(request));
         user.setMoney(userOld.getMoney());
-        UserDAO userDAOImpl = new UserDAOImpl();
+        DAO userDAOImpl = new UserDAOImpl();
         DAO addressDAO = new AddressDAO();
 
-        if(user != null && validator.validate(user)){
+        if(validator.validate(user)){
             try {
                 connection.setAutoCommit(false);
                 userDAOImpl.update(user,connection);
@@ -55,6 +55,6 @@ public class UpdateUserAction implements Action, Constants {
         }else {
             request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
         }
-        return MAIN_PAGE_DIR;
+        return MAIN_PAGE_ACTION;
     }
 }

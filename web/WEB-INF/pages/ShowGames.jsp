@@ -18,7 +18,7 @@
     <body>
     <jsp:include page="MainPage.jsp"/>
 
-    <div class="center">
+    <div class="usersAdminPage">
         <form action="/searchGame">
             <input type="search" name ="searchGame" PLACEHOLDER="Search">
             <input type="submit" name="Find">
@@ -29,8 +29,8 @@
 
         <div class="usersAdminPage">
             <img src="${pageContext.request.contextPath}${Game.posterLink}" width="100px" height="100px"/>
-            <div><span><fmt:message key="text.name" bundle="${bundle}"/> = ${Game.name}</span></div>
-            <div><span><fmt:message key="text.cost" bundle="${bundle}"/> =  <cur:currency lan="${lan}">${Game.cost}</cur:currency></span></div>
+            <div><span><fmt:message key="text.name" bundle="${bundle}"/>  ${Game.name}</span></div>
+            <div><span><fmt:message key="text.cost" bundle="${bundle}"/>   <cur:currency lan="${lan}">${Game.cost}</cur:currency></span></div>
             <div><span><fmt:message key="text.release_date" bundle="${bundle}"/>:
 
                     <c:choose>
@@ -88,16 +88,23 @@
                                 <input type="hidden" name = "addedGame" value="${Game.id}"/>
                                 <input type="submit" class="delete" value="ADD"/>
                             </form>
+                            <form action="/addGameToCart" method="get">
+                                <input type="hidden" name="userID" value="${user.id}">
+                                <input type="hidden" name = "addedGame" value="${Game.id}"/>
+                                <input type="submit" class="delete" value="ADD to cart"/>
+                            </form>
                         </c:if>
                     </c:otherwise>
                 </c:choose>
             </c:if>
         </div>
     </c:forEach>
+
+
     <div class="center">
         <div class="pagination">
             <c:if test="${currentPage != 1}">
-                <a href="/games?currentPage=${currentPage-1}">Previous</a>
+                <a href="/mainPage?currentPage=${currentPage-1}">Previous</a>
             </c:if>
             <c:forEach begin="1" end="${countOfPages}" var="i">
                 <c:choose>
@@ -105,7 +112,7 @@
                         <a>${i}</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="/games?currentPage=${i}">${i}</a>
+                        <a href="/mainPage?currentPage=${i}">${i}</a>
                     </c:otherwise>
                 </c:choose>
             </c:forEach>

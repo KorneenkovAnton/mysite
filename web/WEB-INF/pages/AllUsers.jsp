@@ -19,13 +19,13 @@
     <jsp:include page="MainPage.jsp"/>
         <c:forEach  var="User" items="${users}">
             <div class="usersAdminPage">
-                <div><span><fmt:message key="text.user_id" bundle="${bundle}"/> = ${User.id}</span></div>
-                <div><span><fmt:message key="text.user_name" bundle="${bundle}"/> = ${User.name}</span></div>
-                <div><span><fmt:message key="text.user_s_name" bundle="${bundle}"/> = ${User.sName}</span></div>
-                <div><span><fmt:message key="text.eMail" bundle="${bundle}"/> = ${User.eMail}</span></div>
-                <div><span><fmt:message key="text.date_of_br" bundle="${bundle}"/> = ${User.dateOfBirthday}</span></div>
-                <div><span><fmt:message key="text.country" bundle="${bundle}"/> = ${User.address.country}</span></div>
-                <div><span><fmt:message key="text.user_city" bundle="${bundle}"/> = ${User.address.city}</span></div>
+                <div><span><fmt:message key="text.user_id" bundle="${bundle}"/>  ${User.id}</span></div>
+                <div><span><fmt:message key="text.user_name" bundle="${bundle}"/>  ${User.name}</span></div>
+                <div><span><fmt:message key="text.user_s_name" bundle="${bundle}"/>  ${User.sName}</span></div>
+                <div><span><fmt:message key="text.eMail" bundle="${bundle}"/>  ${User.eMail}</span></div>
+                <div><span><fmt:message key="text.date_of_br" bundle="${bundle}"/>  ${User.dateOfBirthday}</span></div>
+                <div><span><fmt:message key="text.country" bundle="${bundle}"/>  ${User.address.country}</span></div>
+                <div><span><fmt:message key="text.user_city" bundle="${bundle}"/>  ${User.address.city}</span></div>
                 <form action="/deleteUser" method="get">
                     <input type="hidden" name = "deletingUser" value="${User.id}"/>
                     <input type="hidden" name = "deletingAddress" value="${User.address.id}"/>

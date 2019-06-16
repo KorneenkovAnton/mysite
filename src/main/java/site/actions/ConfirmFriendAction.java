@@ -34,6 +34,6 @@ public class ConfirmFriendAction implements Action,Constants {
             pool.closeConnection(connection);
         }
 
-        return MAIN_PAGE_DIR;
+        return MAIN_PAGE_ACTION;
     }
 }

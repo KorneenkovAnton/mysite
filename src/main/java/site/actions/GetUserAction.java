@@ -26,24 +26,23 @@ public class GetUserAction implements Action,Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        UserDAO userDAO = new UserDAOImpl();
+        DAO userDAO = new UserDAOImpl();
         DAO addressDAO = new AddressDAO();
         Validator validator = new UserValidator();
         String answer = LOGIN_JSP;
         try {
-            User user = null;
+            User user;
             if(validator.validateString(request.getParameter(LOGIN),LOGIN_REGEX) &&
                     validator.validateString(request.getParameter(PASSWORD),PASSWORD_REGEX)) {
-                user = (User) userDAO.getByLoginAndPassword(request.getParameter(LOGIN), request.getParameter(PASSWORD),
+                user = ((UserDAOImpl)userDAO).getByLoginAndPassword(request.getParameter(LOGIN), request.getParameter(PASSWORD),
                         connection);
-            }
-            if (user != null) {
                 user.setAddress((Address) addressDAO.getById(user.getId(), connection));
                 session.setAttribute(USER_ATTRIBUTE, user);
-                answer = MAIN_PAGE_DIR;
+                answer = MAIN_PAGE_ACTION;
             }
         }catch (SQLException e){
-            throw new SQLException();
+            e.printStackTrace();
+            throw new SQLException("GetUserAction");
         }finally {
             pool.closeConnection(connection);
         }

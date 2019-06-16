@@ -1,9 +1,6 @@
 package site.actions;
 
-import DAO.DAO;
-import DAO.GameDAO;
-import DAO.GameDAOImpl;
-import DAO.SystemRequirementsDAO;
+import DAO.*;
 import entity.Game;
 import entity.SystemRequirements;
 import pool.ConnectionPool;
@@ -22,7 +19,7 @@ public class GetAllGamesAction implements Action,Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        GameDAO gameDAO = new GameDAOImpl();
+        DAO gameDAO = new GameDAOImpl();
         DAO systemRequirementsDAO = new SystemRequirementsDAO();
         int currentPage = 1;
 
@@ -31,7 +28,7 @@ public class GetAllGamesAction implements Action,Constants {
         }
 
         try {
-            List<Game> games = gameDAO.getAll(currentPage,5,connection);
+            List<Game> games = ((GameDAOImpl)gameDAO).getAll(currentPage,5,connection);
             if(games !=null) {
                 for (Game game : games) {
                     game.setMinimalSystemRequirements((SystemRequirements) systemRequirementsDAO.getById(

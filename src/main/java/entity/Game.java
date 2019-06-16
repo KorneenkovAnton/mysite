@@ -1,6 +1,6 @@
 package entity;
 
-import enums.Genre;
+
 
 import java.util.Date;
 
@@ -13,7 +13,6 @@ public class Game {
     private SystemRequirements minimalSystemRequirements;
     private SystemRequirements recommendedSystemRequirements;
     private String developer;
-    private Genre genre;
     private String posterLink;
 
 
@@ -83,14 +82,6 @@ public class Game {
         this.developer = developer;
     }
 
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
     public String getPosterLink() {
         return posterLink;
     }
@@ -100,7 +91,7 @@ public class Game {
     }
 
     public Game(long id, String name, int cost, Date releaseDate, String description, SystemRequirements minimalSystemRequirements,
-                SystemRequirements recommendedSystemRequirements, String developer, Genre genre) {
+                SystemRequirements recommendedSystemRequirements, String developer) {
         this.id = id;
         this.name = name;
         this.cost = cost;
@@ -109,7 +100,6 @@ public class Game {
         this.minimalSystemRequirements = minimalSystemRequirements;
         this.recommendedSystemRequirements = recommendedSystemRequirements;
         this.developer = developer;
-        this.genre = genre;
     }
 
     public Game(long id) {
@@ -117,5 +107,13 @@ public class Game {
     }
 
     public Game() {
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean answer = false;
+        Game game = (Game) obj;
+        if(this.name.equalsIgnoreCase(game.getName()))answer = true;
+        return answer;
     }
 }

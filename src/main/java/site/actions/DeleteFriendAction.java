@@ -32,6 +32,6 @@ public class DeleteFriendAction implements Action,Constants {
         }finally {
             pool.closeConnection(connection);
         }
-        return MAIN_PAGE_DIR;
+        return MAIN_PAGE_ACTION;
     }
 }

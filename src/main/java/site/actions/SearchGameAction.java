@@ -22,7 +22,7 @@ public class SearchGameAction implements Action,Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        GameDAO gameDAO = new GameDAOImpl();
+        DAO gameDAO = new GameDAOImpl();
         DAO systemRecDAO = new SystemRequirementsDAO();
         int currentPage = 1;
 
@@ -31,7 +31,8 @@ public class SearchGameAction implements Action,Constants {
         }
 
         try {
-            List<Game> games = gameDAO.getGameByName(currentPage,5,request.getParameter(SEARCH_GAME_NAME),connection);
+            List<Game> games = ((GameDAOImpl)gameDAO)
+                    .getGameByName(currentPage,5,request.getParameter(SEARCH_GAME_NAME),connection);
             if(games != null){
                 for(Game game:games){
                     game.setMinimalSystemRequirements((SystemRequirements) systemRecDAO.getById(

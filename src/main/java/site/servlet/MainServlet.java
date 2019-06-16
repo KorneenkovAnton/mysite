@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -18,8 +19,8 @@ public class MainServlet extends HttpServlet {
             String view = null;
             try {
                 view = action.execute(req,resp);
+
             } catch (SQLException e) {
-                System.out.println(req.getServletPath() + "Wrong way");
                 e.printStackTrace();
             }
             getServletContext().getRequestDispatcher(view).forward(req,resp);

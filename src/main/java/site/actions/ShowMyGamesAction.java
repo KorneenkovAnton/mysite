@@ -1,7 +1,6 @@
 package site.actions;
 
-import DAO.GameDAO;
-import DAO.GameDAOImpl;
+import DAO.*;
 import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
@@ -18,11 +17,11 @@ public class ShowMyGamesAction implements Action, Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        GameDAO gameDAO = new GameDAOImpl();
+        DAO gameDAO = new GameDAOImpl();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
 
         try {
-            user.setOwnedGames(gameDAO.getUserGames(user,connection));
+            user.setOwnedGames(((GameDAOImpl)gameDAO).getUserGames(user,connection));
             session.setAttribute(USER_ATTRIBUTE, user);
         }catch (SQLException e){
             e.printStackTrace();
@@ -32,6 +31,6 @@ public class ShowMyGamesAction implements Action, Constants {
         }
         session.setAttribute(USER_ATTRIBUTE,user);
 
-        return SHOW_MY_GAMES;
+        return SHOW_MY_GAMES_PAGE_JSP;
     }
 }

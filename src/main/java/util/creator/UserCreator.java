@@ -22,7 +22,6 @@ public class UserCreator implements Creator<User>, Constants {
             System.out.println("new user");
         }
 
-
         user.setName(request.getParameter(NAME_COLUMN));
         user.setsName(request.getParameter(SNAME_COLUMN));
         user.setLogin(request.getParameter(LOGIN));

@@ -24,10 +24,14 @@ public class AddFriendAction implements Action,Constants {
         Long friendID = Long.valueOf(request.getParameter(ADD_FRIEND_ID));
 
         try {
-            connection.setAutoCommit(false);
-            userFriendDAO.addFriendToDataBase(user,friendID,connection);
-            connection.commit();
-            request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
+            if(friendID != user.getId()) {
+                connection.setAutoCommit(false);
+                userFriendDAO.addFriendToDataBase(user, friendID, connection);
+                connection.commit();
+                request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
+            }else {
+                request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
+            }
         }catch (SQLIntegrityConstraintViolationException e){
             connection.rollback();
             request.setAttribute(OPERATION_STATUS,OPERATION_WRONG_ID);
@@ -40,6 +44,6 @@ public class AddFriendAction implements Action,Constants {
         finally {
             pool.closeConnection(connection);
         }
-        return MAIN_PAGE_DIR;
+        return MAIN_PAGE_ACTION;
     }
 }

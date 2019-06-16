@@ -1,7 +1,6 @@
 package site.actions;
 
 import DAO.DAO;
-import DAO.GameDAO;
 import DAO.GameDAOImpl;
 import DAO.SystemRequirementsDAO;
 import entity.Game;
@@ -26,7 +25,7 @@ public class AddNewGameAction implements Action,Constants {
         Connection connection = pool.getConnection();
         Game game = (Game) session.getAttribute(ADDED_GAME);
         Uploader posterUploader = new Uploader();
-        GameDAO gameDAO = new GameDAOImpl();
+        DAO gameDAO = new GameDAOImpl();
         DAO systemRequirementsDAO = new SystemRequirementsDAO();
 
         try {
@@ -49,6 +48,6 @@ public class AddNewGameAction implements Action,Constants {
         }finally {
             pool.closeConnection(connection);
         }
-        return MAIN_PAGE_DIR;
+        return MAIN_PAGE_ACTION;
     }
 }

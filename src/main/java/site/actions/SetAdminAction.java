@@ -1,7 +1,6 @@
 package site.actions;
 
-import DAO.UserDAO;
-import DAO.UserDAOImpl;
+import DAO.*;
 import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
@@ -20,14 +19,14 @@ public class SetAdminAction implements Action,Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        UserDAO userDAO = new UserDAOImpl();
+        DAO userDAO = new UserDAOImpl();
         User admin = (User) session.getAttribute(USER_ATTRIBUTE);
         int newAdminID = Integer.parseInt(request.getParameter(NEW_ADMIN_ID));
         User newAdmin = new User(newAdminID);
 
         if(admin.isAdmin()){
             try {
-                userDAO.setAdmin(newAdmin,connection);
+                ((UserDAOImpl)userDAO).setAdmin(newAdmin,connection);
                 request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
             }catch (SQLException e){
                 e.printStackTrace();
@@ -38,6 +37,6 @@ public class SetAdminAction implements Action,Constants {
             }
         }
 
-        return MAIN_PAGE_DIR;
+        return MAIN_PAGE_ACTION;
     }
 }

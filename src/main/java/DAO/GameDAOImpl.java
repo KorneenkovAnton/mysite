@@ -152,7 +152,6 @@ public class GameDAOImpl implements GameDAO<Game,User>,Constants {
                 games.add(getGame(resultSet));
             }while (resultSet.next());
         }
-
         return games;
     }
 

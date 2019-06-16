@@ -41,7 +41,7 @@ public interface Constants {
     String COUNT_OF_RECORDS_IN_USER_TABLE = "SELECT COUNT(*) AS count FROM user";
     String COUNT = "count";
     String SEARCH_GAME = "SELECT * FROM game WHERE name LIKE ? LIMIT ?,?";
-    String SEARCH_GAME_NAME = "getGameByName";
+    String SEARCH_GAME_NAME = "searchGame";
 
     //SystemRequirementsDAO
     String ID_SYS = "id";
@@ -79,7 +79,7 @@ public interface Constants {
     String GET_ALL = "SELECT * FROM user WHERE userID != ? LIMIT ?,?";
     String DONATE = "UPDATE user SET money = money + ? WHERE userID = ?";
     String MONEY_COLUMN = "money";
-    String BY_GAME = "UPDATE user SET money = money - (SELECT game.cost FROM game WHERE id = ?) WHERE userID = ?";
+    String BUY_GAME = "UPDATE user SET money = money - (SELECT game.cost FROM game WHERE id = ?) WHERE userID = ?";
     String UPDATE_ADMIN_ROLE = "UPDATE user SET admin = 1 WHERE userID = ?";
 
     //UserFriendDAOImpl
@@ -100,40 +100,41 @@ public interface Constants {
     //ActionConstants
     String USER_ATTRIBUTE = "user";
     String USERS_ATTRIBUTE = "users";
-    String DELETTING_USER = "deletingUser";
-    String DELETTING_ADDRESS = "deletingAddress";
+    String DELETED_USER = "deletingUser";
+    String DELETED_ADDRESS = "deletingAddress";
     String GAMES_ATTRIBUTE = "games";
     String COUNT_OF_PAGES_ATTRIBUTE = "countOfPages";
     String ADDED_GAME = "addedGame";
     String NEW_ADMIN_ID = "newAdminId";
     String OPERATION_STATUS = "operationStatus";
     String LANGUAGE = "lan";
-    String GET_USER_DIR = "/getUser";
-    String UPDATE_USER_DIR = "/updateUser";
-    String MAIN_PAGE_DIR = "/mainPage";
+    String CART_ATTRIBUTE = "cart";
+    String GET_USER_ACTION = "/getUser";
+    String UPDATE_USER_ACTION = "/updateUser";
+    String MAIN_PAGE_ACTION = "/mainPage";
     String LOGIN_JSP = "/WEB-INF/pages/Login.jsp";
     String CURRENT_PAGE = "currentPage";
     String ALL_USERS_PAGE_JSP = "/WEB-INF/pages/AllUsers.jsp";
-    String DELERED_GAME = "deletedGame";
+    String DELETED_GAME = "deletedGame";
     String SHOW_GAMES_JSP = "/WEB-INF/pages/ShowGames.jsp";
-    String GAMES_DIR = "/games";
     String USERS_DIR = "/users";
-    String DELETE_USER_DIR = "/deleteUser";
-    String REGISTER_NEW_USER = "/registerUser";
-    String DELETE_GAME_FROM_DATABASE = "/deleteGame";
-    String MY_GAMES_DIR = "/mainPage/myGames";
+    String DELETE_USER_ACTION = "/deleteUser";
+    String REGISTER_NEW_USER_ACTION = "/registerUser";
+    String DELETE_GAME_FROM_DATABASE_ACTION = "/deleteGame";
+    String MY_GAMES_ACTION = "/mainPage/myGames";
     String ADD_GAME_PAGE_JSP = "/WEB-INF/pages/AddNewGame.jsp";
     String ADD_POSTER_JSP = "/WEB-INF/pages/AddNewGamePoster.jsp";
-    String ADD_POSTER = "/addGameWithPoster";
-    String ADD_GAME = "/addGame";
-    String ADD_GAME_TO_USER = "/addGameToUser";
+    String ADD_POSTER_ACTION = "/addGameWithPoster";
+    String ADD_GAME_ACTION = "/addGame";
+    String ADD_GAME_TO_USER_ACTION = "/addGameToUser";
     String REGISTER_PAGE_JSP = "/WEB-INF/pages/RegisterPage.jsp";
-    String SHOW_MY_FRIENDS_DIR = "/mainPage/myFriends/friends";
-    String SHOW_MY_REQUESTS = "/mainPage/myFriends/requests";
-    String DELETE_FRIEND_DIR = "/deleteFriend";
+    String SHOW_MY_FRIENDS_ACTION = "/mainPage/myFriends/friends";
+    String SHOW_MY_REQUESTS_ACTION = "/mainPage/myFriends/requests";
+    String DELETE_FRIEND_ACTION = "/deleteFriend";
     String USER_FRIENDS_JSP = "/WEB-INF/pages/UserFriends.jsp";
     String PROFILE_JSP = "/WEB-INF/pages/Profile.jsp";
     String DONATE_JSP = "/WEB-INF/pages/Donate.jsp";
+    String CART_JSP = "/WEB-INF/pages/Cart.jsp";
     String SHOW_SEARCH_GAME_JSP = "/WEB-INF/pages/ShowSearchGame.jsp";
     String FRIEND_ID = "friendID";
     String STATUS = "status";
@@ -142,7 +143,7 @@ public interface Constants {
     String ADD_FRIEND_ACTION = "/addFriend";
     String LANGUAGE_ACTION = "/lan";
     String DONATE_ACTION = "/donate";
-    String SHOW_MY_GAMES = "/WEB-INF/pages/ShowMyGames.jsp";
+    String SHOW_MY_GAMES_PAGE_JSP = "/WEB-INF/pages/ShowMyGames.jsp";
     String LOGOUT_ACTION = "/logout";
     String SET_ADMIN_ACTION = "/setAdmin";
     String SHOW_REGISTER_PAGE = "/register";
@@ -151,6 +152,10 @@ public interface Constants {
     String SHOW_PROFILE_PAGE = "/profile";
     String SHOW_DONATE_PAGE = "/donatePage";
     String SEARCH_GAME_ACTION = "/searchGame";
+    String ADD_GAME_TO_CART = "/addGameToCart";
+    String SHOW_CART_PAGE = "/cart";
+    String DELETE_FROM_CART = "/deleteFromCart";
+    String BUY_FROM_CART_ACTION = "/buyGames";
 
     //OperationStatus
     String OPERATION_SUCCESS = "Success";
@@ -158,6 +163,7 @@ public interface Constants {
     String OPERATION_WRONG_ID = "Unexpected friend id";
     String NOT_ENOUGH_MONEY = "Not enough money";
     String GAME_VALIDATION_ERROR = "Validation error";
+    String GAME_AVAILABLE = "The game is already available";
 
 
     //Creator

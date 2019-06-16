@@ -21,12 +21,12 @@
 <c:if test="${operationStatus != null}">
     <c:choose>
         <c:when test="${!operationStatus.equals('Success')}">
-            <div class="note" >
+            <div class="note" id = "error">
                     ${operationStatus}
             </div>
         </c:when>
         <c:otherwise>
-            <div class="note" id = "error">
+            <div class="note" >
                     ${operationStatus}
             </div>
         </c:otherwise>
@@ -57,7 +57,13 @@
                                         <li><a href="/logout">Logout</a> </li>
                                     </ul>
                                 </li>
+                                <li><a href="/cart">CART</a></li>
                                 <li><a href="/donatePage"> DONATE </a> </li>
+
+                                <span class="currency">
+                                    <cur:currency lan="${lan}">${user.money}</cur:currency>
+                                </span>
+
                             </c:otherwise>
                         </c:choose>
                     </c:when>
@@ -67,14 +73,9 @@
                     </c:otherwise>
             </c:choose>
 
-            <li><a href ="/games" ><img src="${pageContext.request.contextPath}/images/gamepad-solid.svg" height="15" width="15"> <fmt:message key="text.games" bundle="${bundle}"/> </a></li>
             <li><a href = "/mainPage" ><img src="${pageContext.request.contextPath}/images/home-solid.svg" height="15" width="15"> <fmt:message key="text.home" bundle="${bundle}"/> </a></li>
 
-            <span class="currency">
-                <c:if test="${user != null}">
-                    <cur:currency lan="${lan}">${user.money}</cur:currency>
-                </c:if>
-            </span>
+
 
             <form action="/lan" method="get">
                 <input type="hidden" name="lan" value="en_US">

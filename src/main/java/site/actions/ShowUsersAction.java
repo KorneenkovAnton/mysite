@@ -1,9 +1,6 @@
 package site.actions;
 
-import DAO.DAO;
-import DAO.UserDAO;
-import DAO.UserDAOImpl;
-import DAO.AddressDAO;
+import DAO.*;
 import entity.Address;
 import entity.User;
 import pool.ConnectionPool;
@@ -22,7 +19,7 @@ public class ShowUsersAction implements Action, Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Connection connection = pool.getConnection();
         HttpSession session = request.getSession();
-        UserDAO userDAO = new UserDAOImpl();
+        DAO userDAO = new UserDAOImpl();
         DAO addressDAO = new AddressDAO();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
         List<User> users;
@@ -32,7 +29,7 @@ public class ShowUsersAction implements Action, Constants {
         }
 
         try {
-            users = userDAO.getAll(user,currentPage,5,connection);///???
+            users = ((UserDAOImpl)userDAO).getAll(user,currentPage,5,connection);
             if(users != null){
                 for (User userTemp: users) {
                     user.setAddress((Address) addressDAO.getById(userTemp.getId(),connection));

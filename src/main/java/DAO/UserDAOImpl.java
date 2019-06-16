@@ -3,7 +3,6 @@ package DAO;
 import entity.Game;
 import entity.User;
 import org.apache.commons.codec.digest.DigestUtils;
-import sun.awt.geom.AreaOp;
 import util.constants.Constants;
 
 import java.sql.*;
@@ -113,8 +112,8 @@ public class UserDAOImpl implements UserDAO<User,User>,Constants {
     }
 
     @Override
-    public void byGame(User user, Game game, Connection connection) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(BY_GAME);
+    public void buyGame(User user, Game game, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(BUY_GAME);
         preparedStatement.setLong(1,game.getId());
         preparedStatement.setLong(2,user.getId());
         preparedStatement.executeUpdate();

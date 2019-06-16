@@ -18,11 +18,11 @@ public class DeleteUserAction implements Action, Constants {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Connection connection = pool.getConnection();
-        int idOfDeletedUser = Integer.parseInt(request.getParameter(DELETTING_USER));
-        int idOfAddress = Integer.parseInt(request.getParameter(DELETTING_ADDRESS));
+        int idOfDeletedUser = Integer.parseInt(request.getParameter(DELETED_USER));
+        int idOfAddress = Integer.parseInt(request.getParameter(DELETED_ADDRESS));
         UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
-        GameDAO gameDAO = new GameDAOImpl();
-        UserDAO userDAO = new UserDAOImpl();
+        DAO gameDAO = new GameDAOImpl();
+        DAO userDAO = new UserDAOImpl();
         User deletedUser = new User();
         deletedUser.setId(idOfDeletedUser);
         deletedUser.setAddress(new Address());
@@ -31,7 +31,7 @@ public class DeleteUserAction implements Action, Constants {
         try {
             connection.setAutoCommit(false);
             userFriendDAO.deleteAllFriendsOfUser(deletedUser,connection);
-            gameDAO.deleteAllUserGames(deletedUser,connection);
+            ((GameDAOImpl)gameDAO).deleteAllUserGames(deletedUser,connection);
             userDAO.delete(deletedUser,connection);
             connection.commit();
             request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
@@ -49,6 +49,6 @@ public class DeleteUserAction implements Action, Constants {
             pool.closeConnection(connection);
         }
 
-        return MAIN_PAGE_DIR;
+        return MAIN_PAGE_ACTION;
     }
 }

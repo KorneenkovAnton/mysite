@@ -12,20 +12,11 @@ public class User  {
     private String eMail;
     private String name;
     private String sName;
-    private long addressId;
     private Address address;
     private List<User> friends;
     private List<Game> ownedGames;
     private int money;
     private boolean admin;
-
-    public long getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(long addressId) {
-        this.addressId = addressId;
-    }
 
     public long getId() {
         return id;
