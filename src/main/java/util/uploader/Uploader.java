@@ -20,13 +20,11 @@ public class Uploader implements Constants {
         ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
         List<FileItem> items = servletFileUpload.parseRequest(request);
         File file = null;
-        Iterator<FileItem> iterator = items.iterator();
 
-        while (iterator.hasNext()){
-            FileItem item = iterator.next();
-            if(!item.isFormField()){
-                file = new File(rb.getString(POSTER_DIR).trim()+item.getName());
-                if(!file.exists()){
+        for (FileItem item : items) {
+            if (!item.isFormField()) {
+                file = new File(rb.getString(POSTER_DIR).trim() + item.getName());
+                if (!file.exists()) {
                     file.createNewFile();
                     System.out.println(file.getAbsoluteFile());
                 }

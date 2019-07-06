@@ -17,13 +17,14 @@ public class DeleteUserAction implements Action, Constants {
     private  final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        Connection connection = pool.getConnection();
         int idOfDeletedUser = Integer.parseInt(request.getParameter(DELETED_USER));
         int idOfAddress = Integer.parseInt(request.getParameter(DELETED_ADDRESS));
+        Connection connection = pool.getConnection();
         UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
         DAO gameDAO = new GameDAOImpl();
         DAO userDAO = new UserDAOImpl();
         User deletedUser = new User();
+
         deletedUser.setId(idOfDeletedUser);
         deletedUser.setAddress(new Address());
         deletedUser.getAddress().setId(idOfAddress);

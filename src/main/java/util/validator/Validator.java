@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public interface Validator<T> {
 
-    boolean validate(T t);
+    boolean isValid(T t);
 
     default boolean validateString(String string, String regex){
         boolean answer = false;

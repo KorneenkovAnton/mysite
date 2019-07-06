@@ -21,12 +21,12 @@ public class AddNewGameAction implements Action,Constants {
     private  final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        Game game = (Game) session.getAttribute(ADDED_GAME);
-        Uploader posterUploader = new Uploader();
+        HttpSession session = request.getSession();
         DAO gameDAO = new GameDAOImpl();
         DAO systemRequirementsDAO = new SystemRequirementsDAO();
+        Game game = (Game) session.getAttribute(ADDED_GAME);
+        Uploader posterUploader = new Uploader();
 
         try {
             game.setPosterLink(POSTERS_FOLDER + posterUploader.uploadFile(request).getName());

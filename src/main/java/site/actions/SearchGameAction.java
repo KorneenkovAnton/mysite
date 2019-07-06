@@ -15,16 +15,19 @@ import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class SearchGameAction implements Action,Constants {
     private  final ConnectionPool pool = ConnectionPool.getInstance();
+    private static ResourceBundle rb = ResourceBundle.getBundle(PROPERTIES_NAME);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
+        int currentPage = 1;
+        int countOfRecords = Integer.parseInt(rb.getString(COUNT_OF_RECORDS));
         Connection connection = pool.getConnection();
+        HttpSession session = request.getSession();
         DAO gameDAO = new GameDAOImpl();
         DAO systemRecDAO = new SystemRequirementsDAO();
-        int currentPage = 1;
 
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
@@ -32,7 +35,7 @@ public class SearchGameAction implements Action,Constants {
 
         try {
             List<Game> games = ((GameDAOImpl)gameDAO)
-                    .getGameByName(currentPage,5,request.getParameter(SEARCH_GAME_NAME),connection);
+                    .getGameByName(currentPage,countOfRecords,request.getParameter(SEARCH_GAME_NAME),connection);
             if(games != null){
                 for(Game game:games){
                     game.setMinimalSystemRequirements((SystemRequirements) systemRecDAO.getById(
@@ -46,10 +49,10 @@ public class SearchGameAction implements Action,Constants {
 
                 int countOfPages = gameDAO.countOfRecordsInSearch(connection,COUNT_OF_FOUNDED_RECORDS_IN_GAME_TABLE,
                         request.getParameter(SEARCH_GAME_NAME));
-                if(countOfPages % 5 == 0 ){
-                    countOfPages = countOfPages/5;
+                if(countOfPages % countOfRecords == 0 ){
+                    countOfPages = countOfPages/countOfRecords;
                 }else {
-                    countOfPages= countOfPages/5+1;
+                    countOfPages= countOfPages/countOfRecords+1;
                 }
 
                 request.setAttribute(COUNT_OF_PAGES_ATTRIBUTE,countOfPages);

@@ -12,8 +12,7 @@ import java.sql.SQLException;
 
 public class AddressDAO implements DAO<Address, User>,Constants {
 
-
-
+    @Override
     public void addToDatabase(User user, Connection connection) throws SQLException {
         Address address = user.getAddress();
         PreparedStatement preparedStatement;
@@ -37,7 +36,7 @@ public class AddressDAO implements DAO<Address, User>,Constants {
         }
     }
 
-
+    @Override
     public void update(User user, Connection connection) throws SQLException {
         Address address = user.getAddress();
         if(isUnique(address,connection)) {
@@ -52,7 +51,7 @@ public class AddressDAO implements DAO<Address, User>,Constants {
         }
     }
 
-
+    @Override
     public void delete(User user, Connection connection) throws SQLException {
         Address address = user.getAddress();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ADDRESS);
@@ -61,7 +60,7 @@ public class AddressDAO implements DAO<Address, User>,Constants {
         closePrepareStatement(preparedStatement);
     }
 
-
+    @Override
     public Address getById(long id, Connection connection) throws SQLException {
         Address address = null;
         PreparedStatement preparedStatement = connection.prepareStatement(GET_ADDRESS);
@@ -78,8 +77,6 @@ public class AddressDAO implements DAO<Address, User>,Constants {
         closePrepareStatement(preparedStatement);
         return address;
     }
-
-
 
     private boolean isUnique(Address address,Connection connection) throws SQLException {
         boolean unique = true;

@@ -21,16 +21,17 @@ public class AddGameToUserAction implements Action,Constants {
     private  final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
+        HttpSession session = request.getSession();
         DAO gameDAO = new GameDAOImpl();
         DAO userDAO = new UserDAOImpl();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
-        Game game = new Game(Integer.parseInt(request.getParameter(ADDED_GAME)));
-        List<Game> userGames = new ArrayList<>();
+        List<Game> cart = (List<Game>) session.getAttribute(CART_ATTRIBUTE);
 
         try {
-            if(!userGames.contains(gameDAO.getById(game.getId(),connection))) {
+            user.setOwnedGames(((GameDAOImpl)gameDAO).getUserGames(user,connection));
+            Game game = (Game) gameDAO.getById(Integer.parseInt(request.getParameter(ADDED_GAME)),connection);
+            if(user.getOwnedGames() != null && !user.getOwnedGames().contains(game) && !cart.contains(game)) {
                 int gameCost = ((GameDAOImpl)gameDAO).getById(game.getId(), connection).getCost();
                 if (user.getMoney() >= gameCost) {
                     connection.setAutoCommit(false);
@@ -45,7 +46,6 @@ public class AddGameToUserAction implements Action,Constants {
             }else {
                 request.setAttribute(OPERATION_STATUS,GAME_AVAILABLE);
             }
-
         }catch (SQLException e){
             e.printStackTrace();
             connection.rollback();

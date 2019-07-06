@@ -3,10 +3,10 @@ package entity;
 
 public class Address {
     private long id;
+    private int numberOfHouse;
     private String country;
     private String city;
     private String street;
-    private int numberOfHouse;
 
     public String getCountry() {
         return country;

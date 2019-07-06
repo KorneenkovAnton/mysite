@@ -6,6 +6,7 @@ import java.util.List;
 public class User  {
 
     private long id;
+    private int money;
     private String login;
     private String password;
     private Date dateOfBirthday;
@@ -15,7 +16,6 @@ public class User  {
     private Address address;
     private List<User> friends;
     private List<Game> ownedGames;
-    private int money;
     private boolean admin;
 
     public long getId() {

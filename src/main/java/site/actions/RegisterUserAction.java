@@ -23,22 +23,24 @@ public class RegisterUserAction implements Action, Constants {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Connection connection = pool.getConnection();
         Creator creator = new UserCreator();
-        User user = (User) creator.create(request);
         DAO addressDAO = new AddressDAO();
         DAO userDAOImpl = new UserDAOImpl();
+        User user = (User) creator.create(request);
         Validator<Address> addressValidator = new AddressValidator();
         Validator<User> userValidator = new UserValidator();
         String answer = REGISTER_PAGE_JSP;
 
         try {
 
-            if(addressValidator.validate(user.getAddress()) && userValidator.validate(user)) {
+            if(addressValidator.isValid(user.getAddress()) && userValidator.isValid(user)) {
                 connection.setAutoCommit(false);
                 addressDAO.addToDatabase(user, connection);
                 userDAOImpl.addToDatabase(user, connection);
                 answer = LOGIN_JSP;
                 request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
                 connection.commit();
+            }else {
+                request.setAttribute(OPERATION_STATUS,VALIDATION_ERROR);
             }
 
         }catch (SQLException e){

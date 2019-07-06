@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
     <head><title>Register</title>
+        <meta charset="UTF-8">
         <link href="${pageContext.request.contextPath}/style.css" type="text/css" rel="stylesheet"/>
         <c:choose>
             <c:when test="${lan != null}">
@@ -29,11 +30,11 @@
                     </div>
                     <div>
                         <label for="name"><fmt:message key="text.user_name" bundle="${bundle}"/></label>
-                        <input id = "name" type="text" name="name" minlength="1" pattern="^[а-яА-ЯёЁa-zA-Z]+$"/>
+                        <input id = "name" type="text" name="name" required="required" minlength="1" pattern="^[а-яА-ЯёЁa-zA-Z '-]+$"/>
                     </div>
                     <div>
                         <label for="sname"><fmt:message key="text.user_s_name" bundle="${bundle}"/></label>
-                        <input id = "sname" type="text" name="sname" minlength="1" pattern="^[а-яА-ЯёЁa-zA-Z]+$"/>
+                        <input id = "sname" type="text" name="sname" minlength="1" required="required" pattern="^[а-яА-ЯёЁa-zA-Z '-]+$"/>
                     </div>
                     <div>
                         <label for="email"><fmt:message key="text.eMail" bundle="${bundle}"/></label>
@@ -41,19 +42,19 @@
                     </div>
                     <div>
                         <label for="date"><fmt:message key="text.date_of_br" bundle="${bundle}"/></label>
-                        <input id = "date" type="date" name="dateOfBirthday"/>
+                        <input id = "date" type="date" name="dateOfBirthday" required=""/>
                     </div>
                     <div>
                         <label for="country"><fmt:message key="text.country" bundle="${bundle}"/></label>
-                        <input id="country" type="text" name="country" pattern="^[а-яА-ЯёЁa-zA-Z]+$"/>
+                        <input id="country" type="text" name="country" pattern="^[а-яА-ЯёЁa-zA-Z]+(?:[-][а-яА-ЯёЁa-zA-Z]+)*$"/>
                     </div>
                     <div>
                         <label for="city"><fmt:message key="text.user_city" bundle="${bundle}"/> </label>
-                        <input id ="city" type="text" name="city" pattern="^[а-яА-ЯёЁa-zA-Z]+$"/>
+                        <input id ="city" type="text" name="city" pattern="^[а-яА-ЯёЁa-zA-Z]+(?:[-][а-яА-ЯёЁa-zA-Z]+)*$"/>
                     </div>
                     <div>
                         <label for="street"><fmt:message key="text.street" bundle="${bundle}"/></label>
-                        <input id ="street" type="text" name="street" pattern="^[а-яА-ЯёЁa-zA-Z]+$"/>
+                        <input id ="street" type="text" name="street" pattern="^[а-яА-ЯёЁa-zA-Z]+(?:[-][а-яА-ЯёЁa-zA-Z]+)*$"/>
                     </div>
                     <div>
                         <label for="num"><fmt:message key="text.num_of_house" bundle="${bundle}"/></label>

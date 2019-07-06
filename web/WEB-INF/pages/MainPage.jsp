@@ -48,17 +48,17 @@
                                     <ul>
                                         <li><a href=""><fmt:message key="text.my_friends" bundle="${bundle}"/> </a>
                                             <ul>
-                                                <a href="/mainPage/myFriends/friends">Friends</a>
-                                                <a href="/mainPage/myFriends/requests">Requests</a>
+                                                <a href="/mainPage/myFriends/friends"><fmt:message key="text.friends" bundle="${bundle}"/></a>
+                                                <a href="/mainPage/myFriends/requests"><fmt:message key="text.req" bundle="${bundle}"/></a>
                                             </ul>
                                         </li>
                                         <li><a href="/mainPage/myGames"><fmt:message key="text.my_games" bundle="${bundle}"/> </a> </li>
                                         <li><a href="/profile"><fmt:message key="text.my_profile" bundle="${bundle}"/> </a> </li>
-                                        <li><a href="/logout">Logout</a> </li>
+                                        <li><a href="/logout"><fmt:message key="text.logout" bundle="${bundle}"/></a> </li>
                                     </ul>
                                 </li>
-                                <li><a href="/cart">CART</a></li>
-                                <li><a href="/donatePage"> DONATE </a> </li>
+                                <li><a href="/cart"><fmt:message key="text.shopping_bag" bundle="${bundle}"/></a></li>
+                                <li><a href="/donatePage"> <fmt:message key="text.donate" bundle="${bundle}"/> </a> </li>
 
                                 <span class="currency">
                                     <cur:currency lan="${lan}">${user.money}</cur:currency>

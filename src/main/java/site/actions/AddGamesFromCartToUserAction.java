@@ -17,12 +17,13 @@ public class AddGamesFromCartToUserAction implements Action,Constants {
     ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
-        List<Game> games = (List<Game>) session.getAttribute(CART_ATTRIBUTE);
-        User user = (User) session.getAttribute(USER_ATTRIBUTE);
         Connection connection = pool.getConnection();
+        HttpSession session = request.getSession();
         DAO gameDAO = new GameDAOImpl();
         DAO userDAO = new UserDAOImpl();
+        List<Game> games = (List<Game>) session.getAttribute(CART_ATTRIBUTE);
+        User user = (User) session.getAttribute(USER_ATTRIBUTE);
+
         int gamesCostSum = games.stream().map(Game ::getCost).reduce((s1,s2) -> s1 + s2).orElse(0);
 
         try {

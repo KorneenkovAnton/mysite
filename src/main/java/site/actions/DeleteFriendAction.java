@@ -16,11 +16,11 @@ public class DeleteFriendAction implements Action,Constants {
     private  final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
+        int friendID = Integer.parseInt(request.getParameter(FRIEND_ID));
         Connection connection = pool.getConnection();
+        HttpSession session = request.getSession();
         UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
-        int friendID = Integer.parseInt(request.getParameter(FRIEND_ID));
 
         try {
             userFriendDAO.deleteFriend(user,friendID,connection);

@@ -17,8 +17,8 @@ public class ShowMyFriendRequestsAction implements Action,Constants {
     private  final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
+        HttpSession session = request.getSession();
         UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
 

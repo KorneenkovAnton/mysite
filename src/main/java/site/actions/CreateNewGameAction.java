@@ -25,12 +25,12 @@ public class CreateNewGameAction implements Action,Constants {
         Game game = (Game) creator.create(request);
         String answer;
 
-        if(validatorGame.validate(game) && validatorSys.validate(game.getMinimalSystemRequirements()) &&
-                validatorSys.validate(game.getRecommendedSystemRequirements())) {
+        if(validatorGame.isValid(game) && validatorSys.isValid(game.getMinimalSystemRequirements()) &&
+                validatorSys.isValid(game.getRecommendedSystemRequirements())) {
             session.setAttribute(ADDED_GAME, game);
             answer = ADD_POSTER_JSP;
         }else {
-            request.setAttribute(OPERATION_STATUS,GAME_VALIDATION_ERROR);
+            request.setAttribute(OPERATION_STATUS, VALIDATION_ERROR);
             answer = ADD_GAME_PAGE_JSP;
         }
 

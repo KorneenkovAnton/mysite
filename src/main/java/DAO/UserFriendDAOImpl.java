@@ -13,9 +13,8 @@ import java.util.List;
 
 public class UserFriendDAOImpl implements UserFriendDAO, Constants {
 
-
+    @Override
     public void addFriendToDataBase(User user, long friendID, Connection connection) throws SQLException {
-
         if(!isFriends(user.getId(),friendID,connection)) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_FRIEND);
             preparedStatement.setLong(1, user.getId());
@@ -25,7 +24,7 @@ public class UserFriendDAOImpl implements UserFriendDAO, Constants {
         }
     }
 
-
+    @Override
     public List<User> selectAllFriendsOfUser(User user, Connection connection) throws SQLException {
         List<User> friends;
         PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_USER_FRIENDS);
@@ -52,9 +51,8 @@ public class UserFriendDAOImpl implements UserFriendDAO, Constants {
         return requests;
     }
 
-
+    @Override
     public void deleteAllFriendsOfUser(User user, Connection connection) throws SQLException {
-
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ALL_FRIENDS);
         preparedStatement.setLong(1,user.getId());
         preparedStatement.setLong(2,user.getId());
@@ -63,7 +61,7 @@ public class UserFriendDAOImpl implements UserFriendDAO, Constants {
 
     }
 
-
+    @Override
     public void deleteFriend(User user,long friendId,Connection connection) throws SQLException {
 
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_FRIEND);
@@ -75,9 +73,8 @@ public class UserFriendDAOImpl implements UserFriendDAO, Constants {
         closePrepareStatement(preparedStatement);
     }
 
-
+    @Override
     public void confirmRel(User user, long friendID, Connection connection) throws SQLException {
-
         PreparedStatement preparedStatement = connection.prepareStatement(CONFIRM_FRIEND);
         preparedStatement.setLong(1,friendID);
         preparedStatement.setLong(2,user.getId());
@@ -85,9 +82,7 @@ public class UserFriendDAOImpl implements UserFriendDAO, Constants {
         closePrepareStatement(preparedStatement);
     }
 
-
     private boolean isFriends(long userID,long friendID,Connection connection) throws SQLException {
-
         boolean isFriend = false;
         PreparedStatement preparedStatement = connection.prepareStatement(CHECK_REL);
         preparedStatement.setLong(1,friendID);

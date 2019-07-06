@@ -13,9 +13,8 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO<User,User>,Constants {
 
 
-
+    @Override
     public void addToDatabase(User user, Connection connection) throws SQLException {
-
         PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER,PreparedStatement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, user.getLogin());
         preparedStatement.setString(2, DigestUtils.md2Hex(user.getPassword()));
@@ -37,10 +36,9 @@ public class UserDAOImpl implements UserDAO<User,User>,Constants {
         }
     }
 
-
+    @Override
     public void update(User user, Connection connection) throws SQLException {
         PreparedStatement preparedStatement  = connection.prepareStatement(UPADTE_USER);
-
         preparedStatement.setString(1,user.getName());
         preparedStatement.setString(2,user.getsName());
         preparedStatement.setString(3,DigestUtils.md2Hex(user.getPassword()));
@@ -52,7 +50,7 @@ public class UserDAOImpl implements UserDAO<User,User>,Constants {
         closePrepareStatement(preparedStatement);
     }
 
-
+    @Override
     public void delete(User user, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID);
         preparedStatement.setLong(1,user.getId());
@@ -60,7 +58,7 @@ public class UserDAOImpl implements UserDAO<User,User>,Constants {
         closePrepareStatement(preparedStatement);
     }
 
-
+    @Override
     public User getById(long id, Connection connection) throws SQLException {
         User user = null;
         PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_ID);
@@ -81,7 +79,7 @@ public class UserDAOImpl implements UserDAO<User,User>,Constants {
         return user;
     }
 
-
+    @Override
     public User getByLoginAndPassword(String login, String password, Connection connection) throws SQLException {
         User user = null;
         PreparedStatement preparedStatement =connection.prepareStatement(SELECT_BY_LOGIN_AND_PASSWORD);
@@ -103,6 +101,7 @@ public class UserDAOImpl implements UserDAO<User,User>,Constants {
         return user;
     }
 
+    @Override
     public void donate(User user, int money, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(DONATE);
         preparedStatement.setInt(1,money);
@@ -128,6 +127,7 @@ public class UserDAOImpl implements UserDAO<User,User>,Constants {
         closePrepareStatement(preparedStatement);
     }
 
+    @Override
     public List<User> getAll(User user,int page, int recordsPerPage, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL);
         preparedStatement.setLong(1,user.getId());
@@ -147,6 +147,4 @@ public class UserDAOImpl implements UserDAO<User,User>,Constants {
         closePrepareStatement(preparedStatement);
         return users;
     }
-
-
 }

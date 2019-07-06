@@ -17,11 +17,11 @@ public class SetAdminAction implements Action,Constants {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
+        int newAdminID = Integer.parseInt(request.getParameter(NEW_ADMIN_ID));
         Connection connection = pool.getConnection();
+        HttpSession session = request.getSession();
         DAO userDAO = new UserDAOImpl();
         User admin = (User) session.getAttribute(USER_ATTRIBUTE);
-        int newAdminID = Integer.parseInt(request.getParameter(NEW_ADMIN_ID));
         User newAdmin = new User(newAdminID);
 
         if(admin.isAdmin()){

@@ -20,13 +20,13 @@ public class AddGameToCartAction implements Action,Constants{
     private final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
-        Connection connection = pool.getConnection();
-        List<Game> cart = (List<Game>) session.getAttribute(CART_ATTRIBUTE);
-        DAO gameDAO = new GameDAOImpl();
-        Game game;
-        User user = (User) session.getAttribute(USER_ATTRIBUTE);
         long gameID = Long.parseLong(request.getParameter(ADDED_GAME));
+        Connection connection = pool.getConnection();
+        HttpSession session = request.getSession();
+        DAO gameDAO = new GameDAOImpl();
+        User user = (User) session.getAttribute(USER_ATTRIBUTE);
+        Game game;
+        List<Game> cart = (List<Game>) session.getAttribute(CART_ATTRIBUTE);
 
         if(cart == null){
             cart = new ArrayList<>();

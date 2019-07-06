@@ -4,7 +4,6 @@
 <html>
     <head><title>Friends</title>
         <link href="${pageContext.request.contextPath}/style.css" type="text/css" rel="stylesheet"/>
-        <fmt:setBundle basename="resources" var = "bundle"/>
         <c:choose>
             <c:when test="${lan != null}">
                 <fmt:setLocale value="${lan}"/>
@@ -13,6 +12,7 @@
                 <fmt:setLocale value="en_US"/>
             </c:otherwise>
         </c:choose>
+        <fmt:setBundle basename="resources" var = "bundle"/>
     </head>
     <body>
     <jsp:include page="MainPage.jsp"/>
@@ -22,10 +22,10 @@
     </form>
         <c:forEach var="Friend" items="${user.friends}">
             <div class="friend">
-                <div><span>ID = ${Friend.id}</span></div>
-                <div><span>Name = ${Friend.name}</span></div>
-                <div><span>Second Name =${Friend.sName}</span></div>
-                <div><span>E-Mail = ${Friend.eMail}</span></div>
+                <div><span><fmt:message key="text.user_id" bundle="${bundle}"/> ${Friend.id}</span></div>
+                <div><span><fmt:message key="text.user_name" bundle="${bundle}"/> ${Friend.name}</span></div>
+                <div><span><fmt:message key="text.user_s_name" bundle="${bundle}"/>${Friend.sName}</span></div>
+                <div><span><fmt:message key="text.eMail" bundle="${bundle}"/> ${Friend.eMail}</span></div>
                 <form method="get" action="/deleteFriend">
                     <input type="hidden" name="friendID" value="${Friend.id}"/>
                     <input type="submit" class="delete" value="DELETE"/>

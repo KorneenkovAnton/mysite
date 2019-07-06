@@ -17,13 +17,14 @@ public class ShowUsersAction implements Action, Constants {
     private final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+        int currentPage = 1;
         Connection connection = pool.getConnection();
         HttpSession session = request.getSession();
         DAO userDAO = new UserDAOImpl();
         DAO addressDAO = new AddressDAO();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
         List<User> users;
-        int currentPage = 1;
+
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         }

@@ -5,9 +5,6 @@ import util.constants.Constants;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Created by Антон on 07.10.2018.
- */
 public class AddressCreator implements Creator<Address>,Constants {
     @Override
     public Address create(HttpServletRequest request) {

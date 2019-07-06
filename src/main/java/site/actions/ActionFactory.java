@@ -48,14 +48,7 @@ public class ActionFactory implements Constants {
     public synchronized Action getAction(HttpServletRequest request, HttpServletResponse response){
         String actionKey = request.getServletPath();
         action = actions.get(actionKey);
-        if(action == null){
-            try {
-                response.getWriter().write("wrong url");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Wrong Action");
-        }
+
         return action;
     }
 }

@@ -72,19 +72,6 @@ public class SystemRequirementsDAO implements DAO<SystemRequirements,SystemRequi
         return systemRequirements;
     }
 
-
-    /*@Override
-    public List<SystemRequirements> getAll(Connection connection) throws SQLException {
-        List<SystemRequirements> systemRequirements = new ArrayList<>();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM system_requirements");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()){
-            systemRequirements.add(getSysReq(resultSet));
-        }
-        closePrepareStatement(preparedStatement);
-        return systemRequirements;
-    }*/
-
     private SystemRequirements getSysReq(ResultSet resultSet) throws SQLException {
         SystemRequirements systemRequirementsTemp = new SystemRequirements();
         systemRequirementsTemp.setId(resultSet.getLong(ID_SYS));

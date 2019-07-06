@@ -6,15 +6,14 @@ import java.util.Date;
 
 public class Game {
     private long id;
-    private String name;
     private int cost;
     private Date releaseDate;
     private String description;
-    private SystemRequirements minimalSystemRequirements;
-    private SystemRequirements recommendedSystemRequirements;
+    private String name;
     private String developer;
     private String posterLink;
-
+    private SystemRequirements minimalSystemRequirements;
+    private SystemRequirements recommendedSystemRequirements;
 
     public long getId() {
         return id;

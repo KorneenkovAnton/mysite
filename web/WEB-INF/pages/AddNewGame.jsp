@@ -2,8 +2,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <html>
-    <head><title>AddGame</title>
-        <link href = "../../style.css" rel = "stylesheet" type = "text/css"/>
+    <head>
+        <title>AddGame</title>
+        <meta charset="UTF-8">
+        <link href = "${pageContext.request.contextPath}/style.css" rel = "stylesheet" type = "text/css"/>
         <c:choose>
             <c:when test="${lan != null}">
                 <fmt:setLocale value="${lan}"/>
@@ -20,7 +22,7 @@
         <form action="/addGame" method="post">
             <div>
                 <label for="name"><fmt:message key="text.name" bundle="${bundle}"/> </label>
-                <input id ="name" type="text" required="required" name="name" pattern="^[a-zA-Z]+$"/>
+                <input id ="name" type="text" required="required" name="name" pattern="^[a-zA-Z ,-:0-9]+$"/>
             </div>
             <div>
                 <label for="desc"><fmt:message key="text.cost" bundle="${bundle}"/> </label>
@@ -32,7 +34,7 @@
             </div>
             <div>
                 <label for="desc"><fmt:message key="text.descr" bundle="${bundle}"/> </label>
-                <input id = "desc" type="text" name="description" pattern="^[a-zA-Z]+$" size="400"/>
+                <input id = "desc" type="text" name="description" pattern="^[а-яА-ЯёЁa-zA-Z '-.:?0-9]+$" size="400"/>
             </div>
             <div>
                 <label for="desc"><fmt:message key="text.dev" bundle="${bundle}"/> </label>
@@ -45,11 +47,11 @@
         <div class="minSys">
             <div>
                 <label for="operSysMin"><fmt:message key="text.OS" bundle="${bundle}"/> </label>
-                <input id = "operSysMin" type="text" name="operationSystemMin" required="required" pattern="^[a-zA-Z]+$"/>
+                <input id = "operSysMin" type="text" name="operationSystemMin" required="required" pattern="^[a-zA-Z 0-9]+$"/>
             </div>
             <div>
                 <label for="cpuNameMin"><fmt:message key="text.cpu_name" bundle="${bundle}"/></label>
-                <input id = "cpuNameMin" type="text" name="cpuNameMin" required="required" pattern="^[a-zA-Z]+$"/>
+                <input id = "cpuNameMin" type="text" name="cpuNameMin" required="required" pattern="^[a-zA-Z 0-9]+$"/>
             </div>
             <div>
                 <label for="cpruFreqMin"><fmt:message key="text.cpu_freq" bundle="${bundle}"/> </label>
@@ -61,7 +63,7 @@
             </div>
             <div>
                 <label for="adapterNameMin"><fmt:message key="text.video_adapter_name" bundle="${bundle}"/> </label>
-                <input id = "adapterNameMin" type="text" name="videoAdapterNameMin" required="required" pattern="^[a-zA-Z]+$"/>
+                <input id = "adapterNameMin" type="text" name="videoAdapterNameMin" required="required" pattern="^[a-zA-Z 0-9]+$"/>
             </div>
             <div>
                 <label for="adapterMemMin"><fmt:message key="text.video_adapter_memory" bundle="${bundle}"/> </label>
@@ -79,11 +81,11 @@
     <div class="recSys">
         <div>
             <label><fmt:message key="text.OS" bundle="${bundle}"/> </label>
-            <input type="text" name="operationSystemRec" required="required" pattern="^[a-zA-Z]+$"/>
+            <input type="text" name="operationSystemRec" required="required" pattern="^[a-zA-Z 0-9]+$"/>
         </div>
         <div>
             <label><fmt:message key="text.cpu_name" bundle="${bundle}"/> </label>
-            <input  type="text" name="cpuNameRec" required="required" pattern="^[a-zA-Z]+$"/>
+            <input  type="text" name="cpuNameRec" required="required" pattern="^[a-zA-Z 0-9]+$"/>
         </div>
         <div>
             <label><fmt:message key="text.cpu_freq" bundle="${bundle}"/> </label>
@@ -95,15 +97,15 @@
         </div>
         <div>
             <label for="adapterNameMin"><fmt:message key="text.video_adapter_name" bundle="${bundle}"/> </label>
-            <input  type="text" name="videoAdapterNameRec" required="required" pattern="^[a-zA-Z]+$"/>
+            <input  type="text" name="videoAdapterNameRec" required="required" pattern="^[a-zA-Z 0-9]+$"/>
         </div>
         <div>
             <label for="adapterMemMin"><fmt:message key="text.video_adapter_memory" bundle="${bundle}"/> </label>
-            <input  type="text" name="videoAdaptermMemoryRec" required="required" pattern="^[ 0-9]+$"/>
+            <input  type="text" name="videoAdaptermMemoryRec" required="required" pattern="^[0-9]+$"/>
         </div>
         <div>
             <label for="freeSpaceMin"><fmt:message key="text.free_space" bundle="${bundle}"/> </label>
-            <input  type="text" name="freeSpaceRec" required="required" pattern="^[ 0-9]+$"/>
+            <input  type="text" name="freeSpaceRec" required="required" pattern="^[0-9]+$"/>
         </div>
     </div>
     <input class="enter" type="submit" name="submit" value="ADD"/>

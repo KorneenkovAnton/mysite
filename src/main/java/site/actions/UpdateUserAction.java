@@ -2,14 +2,15 @@ package site.actions;
 
 import DAO.AddressDAO;
 import DAO.DAO;
-import DAO.UserDAO;
 import DAO.UserDAOImpl;
+import entity.Address;
 import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
 import util.creator.AddressCreator;
 import util.creator.Creator;
 import util.creator.UserCreator;
+import util.validator.AddressValidator;
 import util.validator.UserValidator;
 import util.validator.Validator;
 
@@ -24,18 +25,21 @@ public class UpdateUserAction implements Action, Constants {
     private final ConnectionPool pool = ConnectionPool.getInstance();
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
-        HttpSession session = request.getSession();
         Connection connection = pool.getConnection();
-        Creator<User> creator = new UserCreator();
-        Validator<User> validator = new UserValidator();
-        User userOld = (User) session.getAttribute(USER_ATTRIBUTE);
-        User  user = creator.create(request);
-        user.setAddress(new AddressCreator().create(request));
-        user.setMoney(userOld.getMoney());
+        HttpSession session = request.getSession();
         DAO userDAOImpl = new UserDAOImpl();
         DAO addressDAO = new AddressDAO();
+        Creator creator = new UserCreator();
+        Validator<User> userValidator = new UserValidator();
+        Validator<Address> addressValidator = new AddressValidator();
+        User userOld = (User) session.getAttribute(USER_ATTRIBUTE);
+        User user = (User) creator.create(request);
 
-        if(validator.validate(user)){
+        user.setAddress(new AddressCreator().create(request));
+        user.setMoney(userOld.getMoney());
+        user.setId(userOld.getId());
+
+        if(userValidator.isValid(user) && addressValidator.isValid(user.getAddress())){
             try {
                 connection.setAutoCommit(false);
                 userDAOImpl.update(user,connection);
@@ -53,7 +57,7 @@ public class UpdateUserAction implements Action, Constants {
                 pool.closeConnection(connection);
             }
         }else {
-            request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
+            request.setAttribute(OPERATION_STATUS,VALIDATION_ERROR);
         }
         return MAIN_PAGE_ACTION;
     }

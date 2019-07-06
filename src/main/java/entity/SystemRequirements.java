@@ -3,13 +3,14 @@ package entity;
 
 public class SystemRequirements {
     private long id;
-    private String operationSystem;
-    private String cpuName;
     private double cpuFrequency;
     private int ram;
-    private String videoAdapterName;
     private int videoAdapterMemory;
     private int freeSpace;
+    private String operationSystem;
+    private String cpuName;
+    private String videoAdapterName;
+
 
     public long getId() {
         return id;

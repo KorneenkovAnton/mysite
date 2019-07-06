@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
-    <head><title>Title</title></head>
+    <head><title>Title</title>
+        <meta charset="UTF-8">
+    </head>
     <body>
     <jsp:include page="MainPage.jsp"/>
     <form action="/addGameWithPoster" method="post" enctype="multipart/form-data">

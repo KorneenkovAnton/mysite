@@ -109,6 +109,8 @@ public interface Constants {
     String OPERATION_STATUS = "operationStatus";
     String LANGUAGE = "lan";
     String CART_ATTRIBUTE = "cart";
+    String DELETE_FROM_CART_GAME_ID = "deleteCart";
+    String COUNT_OF_RECORDS = "count_of_records";
     String GET_USER_ACTION = "/getUser";
     String UPDATE_USER_ACTION = "/updateUser";
     String MAIN_PAGE_ACTION = "/mainPage";
@@ -162,8 +164,9 @@ public interface Constants {
     String OPERATION_ERROR = "Error";
     String OPERATION_WRONG_ID = "Unexpected friend id";
     String NOT_ENOUGH_MONEY = "Not enough money";
-    String GAME_VALIDATION_ERROR = "Validation error";
-    String GAME_AVAILABLE = "The game is already available";
+    String VALIDATION_ERROR = "Validation error";
+    String GAME_AVAILABLE = "The game is already available or in the cart";
+    String WRONG_LOGIN_OR_PASSWORD = "Wrong login or password";
 
 
     //Creator
@@ -192,12 +195,11 @@ public interface Constants {
     String POSTER_DIR = "posters_dir";
     String POSTERS_FOLDER = "/posters/";
 
-    //Enum
-    int ACTION_ID = 1;
-    int ARCADE_ID = 2;
-    int FIGHTING_ID = 4;
-    int RPG_ID = 5;
-    int SHOOTER_ID = 3;
+    //HTTPErrors
+    String HTTPError = "HTTPError";
+    String ERROR_505 = "505";
+    String ERROR_404 = "404";
+    String ERROR_JSP = "/WEB-INF/pages/ErrorPage.jsp";
 
 }
 
