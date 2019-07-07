@@ -158,6 +158,7 @@ public interface Constants {
     String SHOW_CART_PAGE = "/cart";
     String DELETE_FROM_CART = "/deleteFromCart";
     String BUY_FROM_CART_ACTION = "/buyGames";
+    String FIRST_PAGE = "/";
 
     //OperationStatus
     String OPERATION_SUCCESS = "Success";

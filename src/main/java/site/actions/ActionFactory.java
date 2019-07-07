@@ -13,6 +13,7 @@ public class ActionFactory implements Constants {
     private Action action;
 
     public ActionFactory() {
+        actions.put(FIRST_PAGE,new GetAllGamesAction());
         actions.put(GET_USER_ACTION, new GetUserAction());
         actions.put(UPDATE_USER_ACTION,new UpdateUserAction());
         actions.put(MAIN_PAGE_ACTION,new GetAllGamesAction());
