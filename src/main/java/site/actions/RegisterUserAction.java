@@ -17,38 +17,47 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class RegisterUserAction implements Action, Constants {
-    private  final ConnectionPool pool = ConnectionPool.getInstance();
+    private final ConnectionPool pool;
+    private final Creator<User> creator;
+    private final DAO<Address, User> addressDAOImpl;
+    private final UserDAO<User, User> userDAOImpl;
+    private final Validator<Address> addressValidator;
+    private final Validator<User> userValidator;
+
+    {
+        pool = ConnectionPool.getInstance();
+        creator = new UserCreator();
+        addressDAOImpl = new AddressDAOImpl();
+        userDAOImpl = new UserDAOImpl();
+        addressValidator = new AddressValidator();
+        userValidator = new UserValidator();
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Connection connection = pool.getConnection();
-        Creator creator = new UserCreator();
-        DAO addressDAO = new AddressDAO();
-        DAO userDAOImpl = new UserDAOImpl();
-        User user = (User) creator.create(request);
-        Validator<Address> addressValidator = new AddressValidator();
-        Validator<User> userValidator = new UserValidator();
+        User user = creator.create(request);
         String answer = REGISTER_PAGE_JSP;
 
         try {
 
-            if(addressValidator.isValid(user.getAddress()) && userValidator.isValid(user)) {
+            if (addressValidator.isValid(user.getAddress()) && userValidator.isValid(user)) {
                 connection.setAutoCommit(false);
-                addressDAO.addToDatabase(user, connection);
+                addressDAOImpl.addToDatabase(user, connection);
                 userDAOImpl.addToDatabase(user, connection);
                 answer = LOGIN_JSP;
                 request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
                 connection.commit();
-            }else {
-                request.setAttribute(OPERATION_STATUS,VALIDATION_ERROR);
+            } else {
+                request.setAttribute(OPERATION_STATUS, VALIDATION_ERROR);
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             connection.rollback();
             e.printStackTrace();
             request.setAttribute(OPERATION_STATUS, OPERATION_ERROR);
             throw new SQLException("RegisterUserAction");
-        }finally {
+        } finally {
             pool.closeConnection(connection);
         }
         return answer;

@@ -25,6 +25,16 @@ public interface DAO <T,V> {
         }
     }
 
+    default void closeResultSet(ResultSet resultSet) {
+        if(resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     default int countOfRecords(Connection connection,String query) throws SQLException {
         int countOfRecords = 0;
         PreparedStatement preparedStatement = connection.prepareStatement(query);

@@ -13,25 +13,30 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class MyFriendsAction implements Action, Constants {
-    private  final ConnectionPool pool = ConnectionPool.getInstance();
+    private final ConnectionPool pool;
+    private final UserFriendDAO userFriendDAO;
+
+    {
+        pool = ConnectionPool.getInstance();
+        userFriendDAO = new UserFriendDAOImpl();
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Connection connection = pool.getConnection();
         HttpSession session = request.getSession();
-        UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
 
-        try{
-            user.setFriends(userFriendDAO.selectAllFriendsOfUser(user,connection));
-        }catch (SQLException e){
+        try {
+            user.setFriends(userFriendDAO.selectAllFriendsOfUser(user, connection));
+            session.setAttribute(USER_ATTRIBUTE, user);
+            request.setAttribute(STATUS, 1);
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("MyFriendsAction");
-        }finally {
+        } finally {
             pool.closeConnection(connection);
         }
-
-        session.setAttribute(USER_ATTRIBUTE,user);
-        request.setAttribute(STATUS,1);
 
         return USER_FRIENDS_JSP;
     }

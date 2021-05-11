@@ -4,13 +4,11 @@ import util.constants.Constants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ActionFactory implements Constants {
-    private Map<String,Action> actions = new HashMap<>();
-    private Action action;
+    private final Map<String,Action> actions = new HashMap<>();
 
     public ActionFactory() {
         actions.put(FIRST_PAGE,new GetAllGamesAction());
@@ -44,12 +42,14 @@ public class ActionFactory implements Constants {
         actions.put(SHOW_CART_PAGE,new ShowCartPageAction());
         actions.put(DELETE_FROM_CART,new DeleteFromCartAction());
         actions.put(BUY_FROM_CART_ACTION,new AddGamesFromCartToUserAction());
+        actions.put(SHOW_ALL_FRIEND_FOR_ADD,new ShowAvailableFriendsAction());
+        actions.put(SHOW_GAME_INFO, new ShowGameInfoPage());
+        actions.put(ADD_NEW_COMMENT, new AddNewCommentAction());
     }
 
     public synchronized Action getAction(HttpServletRequest request, HttpServletResponse response){
         String actionKey = request.getServletPath();
-        action = actions.get(actionKey);
 
-        return action;
+        return actions.get(actionKey);
     }
 }

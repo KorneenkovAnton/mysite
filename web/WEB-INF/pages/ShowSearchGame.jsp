@@ -82,7 +82,7 @@
             </div>
 
             <aside class="left-sidebar">
-                <img src="${pageContext.request.contextPath}${Game.posterLink}" width="250px" height="450px"/>	</aside><!-- .left-sidebar -->
+                <img src="data:${Game.poster.mimeType};base64, ${Game.poster.base64file}"/>	</aside><!-- .left-sidebar -->
 
         </div>
 

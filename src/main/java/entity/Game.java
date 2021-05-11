@@ -3,6 +3,7 @@ package entity;
 
 
 import java.util.Date;
+import java.util.List;
 
 public class Game {
     private long id;
@@ -11,9 +12,11 @@ public class Game {
     private String description;
     private String name;
     private String developer;
-    private String posterLink;
+   // private String posterLink;
+    private Poster poster;
     private SystemRequirements minimalSystemRequirements;
     private SystemRequirements recommendedSystemRequirements;
+    private List<Comment> comments;
 
     public long getId() {
         return id;
@@ -39,7 +42,6 @@ public class Game {
         this.cost = cost;
     }
 
-
     public Date getReleaseDate() {
         return releaseDate;
     }
@@ -55,7 +57,6 @@ public class Game {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public SystemRequirements getMinimalSystemRequirements() {
         return minimalSystemRequirements;
@@ -81,12 +82,20 @@ public class Game {
         this.developer = developer;
     }
 
-    public String getPosterLink() {
-        return posterLink;
+    public Poster getPoster() {
+        return poster;
     }
 
-    public void setPosterLink(String posterLink) {
-        this.posterLink = posterLink;
+    public void setPoster(Poster poster) {
+        this.poster = poster;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public Game(long id, String name, int cost, Date releaseDate, String description, SystemRequirements minimalSystemRequirements,
@@ -114,5 +123,19 @@ public class Game {
         Game game = (Game) obj;
         if(this.name.equalsIgnoreCase(game.getName()))answer = true;
         return answer;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "id=" + id +
+                ", cost=" + cost +
+                ", releaseDate=" + releaseDate +
+                ", description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", developer='" + developer + '\'' +
+                ", minimalSystemRequirements=" + minimalSystemRequirements +
+                ", recommendedSystemRequirements=" + recommendedSystemRequirements +
+                '}';
     }
 }

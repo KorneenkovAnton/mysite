@@ -58,4 +58,15 @@ public class Address {
 
     public Address() {
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", numberOfHouse=" + numberOfHouse +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                '}';
+    }
 }

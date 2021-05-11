@@ -2,6 +2,7 @@ package DAO;
 
 
 import entity.Game;
+import entity.Poster;
 import entity.SystemRequirements;
 import entity.User;
 import util.constants.Constants;
@@ -10,25 +11,26 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameDAOImpl implements GameDAO<Game,User>,Constants {
+public class GameDAOImpl implements GameDAO<Game, User>, Constants {
 
     @Override
     public void addToDatabase(Game game, Connection connection) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GAME,PreparedStatement.RETURN_GENERATED_KEYS);
-        preparedStatement.setString(1,game.getName());
-        preparedStatement.setInt(2,game.getCost());
-        preparedStatement.setDate(3,new Date(game.getReleaseDate().getTime()));
-        preparedStatement.setString(4,game.getDescription());
-        preparedStatement.setString(5,game.getDeveloper());
-        preparedStatement.setLong(6,game.getMinimalSystemRequirements().getId());
-        preparedStatement.setLong(7,game.getRecommendedSystemRequirements().getId());
-        preparedStatement.setString(8,game.getPosterLink());
+        PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GAME, PreparedStatement.RETURN_GENERATED_KEYS);
+        preparedStatement.setString(1, game.getName());
+        preparedStatement.setInt(2, game.getCost());
+        preparedStatement.setDate(3, new Date(game.getReleaseDate().getTime()));
+        preparedStatement.setString(4, game.getDescription());
+        preparedStatement.setString(5, game.getDeveloper());
+        preparedStatement.setLong(6, game.getMinimalSystemRequirements().getId());
+        preparedStatement.setLong(7, game.getRecommendedSystemRequirements().getId());
+        preparedStatement.setLong(8, game.getPoster().getId());
         preparedStatement.executeUpdate();
-        try(ResultSet generatedKey = preparedStatement.getGeneratedKeys()) {
-            if(generatedKey.next()){
+        try (ResultSet generatedKey = preparedStatement.getGeneratedKeys()) {
+            if (generatedKey.next()) {
                 game.setId(generatedKey.getLong(1));
-            }
-            else {
+                closeResultSet(generatedKey);
+            } else {
+                closeResultSet(generatedKey);
                 closePrepareStatement(preparedStatement);
                 throw new SQLException("Creating game failed");
             }
@@ -40,12 +42,12 @@ public class GameDAOImpl implements GameDAO<Game,User>,Constants {
     @Override
     public void update(Game game, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_GAME);
-        preparedStatement.setString(1,game.getName());
-        preparedStatement.setInt(2,game.getCost());
+        preparedStatement.setString(1, game.getName());
+        preparedStatement.setInt(2, game.getCost());
         preparedStatement.setDate(3, (Date) game.getReleaseDate());
-        preparedStatement.setString(4,game.getDescription());
-        preparedStatement.setString(5,game.getDeveloper());
-        preparedStatement.setString(6,game.getPosterLink());
+        preparedStatement.setString(4, game.getDescription());
+        preparedStatement.setString(5, game.getDeveloper());
+        preparedStatement.setLong(6, game.getPoster().getId());
         preparedStatement.executeUpdate();
         closePrepareStatement(preparedStatement);
     }
@@ -54,15 +56,18 @@ public class GameDAOImpl implements GameDAO<Game,User>,Constants {
     @Override
     public void delete(Game game, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_GAME);
-        preparedStatement.setLong(1,game.getId());
+        preparedStatement.setLong(1, game.getId());
         preparedStatement.executeUpdate();
         closePrepareStatement(preparedStatement);
     }
 
 
-    public void deleteLinks(Game game,Connection connection) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LINKS);
-        preparedStatement.setLong(1,game.getId());
+    public void deleteLinks(Game game, Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_LINKS_1);
+        preparedStatement.setLong(1, game.getId());
+        preparedStatement.executeUpdate();
+        preparedStatement = connection.prepareStatement(DELETE_LINKS_2);
+        preparedStatement.setLong(1, game.getId());
         preparedStatement.executeUpdate();
         closePrepareStatement(preparedStatement);
     }
@@ -72,22 +77,24 @@ public class GameDAOImpl implements GameDAO<Game,User>,Constants {
     public Game getById(long id, Connection connection) throws SQLException {
         Game gameTemp = null;
         PreparedStatement preparedStatement = connection.prepareStatement(GET_GAME);
-        preparedStatement.setLong(1,id);
+        preparedStatement.setLong(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        if(resultSet.next()){
+        if (resultSet.next()) {
             gameTemp = getGame(resultSet);
         }
+        closeResultSet(resultSet);
         closePrepareStatement(preparedStatement);
         return gameTemp;
     }
 
 
-    public  List<Game> getUserGames(User user, Connection connection) throws SQLException {
+    public List<Game> getUserGames(User user, Connection connection) throws SQLException {
         List<Game> games;
         PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_GAMES);
-        preparedStatement.setLong(1,user.getId());
+        preparedStatement.setLong(1, user.getId());
         ResultSet resultSet = preparedStatement.executeQuery();
         games = getGameLIst(resultSet);
+        closeResultSet(resultSet);
         closePrepareStatement(preparedStatement);
         return games;
     }
@@ -95,37 +102,38 @@ public class GameDAOImpl implements GameDAO<Game,User>,Constants {
     @Override
     public void deleteAllUserGames(User user, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ALL_USER_GAMES);
-        preparedStatement.setLong(1,user.getId());
+        preparedStatement.setLong(1, user.getId());
         preparedStatement.executeUpdate();
         closePrepareStatement(preparedStatement);
     }
 
 
-    public void deleteUserGame(User user,long gameID, Connection connection) throws SQLException {
+    public void deleteUserGame(User user, long gameID, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_GAME);
-        preparedStatement.setLong(1,user.getId());
-        preparedStatement.setLong(2,gameID);
+        preparedStatement.setLong(1, user.getId());
+        preparedStatement.setLong(2, gameID);
         preparedStatement.executeUpdate();
         closePrepareStatement(preparedStatement);
     }
 
 
-    public List<Game> getAll(int page,int recordsPerPage,Connection connection) throws SQLException {
+    public List<Game> getAll(int page, int recordsPerPage, Connection connection) throws SQLException {
         List<Game> games;
         PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_GAMES);
-        preparedStatement.setInt(1,(page-1)*recordsPerPage);
-        preparedStatement.setInt(2,recordsPerPage);
+        preparedStatement.setInt(1, (page - 1) * recordsPerPage);
+        preparedStatement.setInt(2, recordsPerPage);
         ResultSet resultSet = preparedStatement.executeQuery();
         games = getGameLIst(resultSet);
+        closeResultSet(resultSet);
         closePrepareStatement(preparedStatement);
         return games;
     }
 
 
-    public void addGameToUser(User user,Game game, Connection connection) throws SQLException {
+    public void addGameToUser(User user, Game game, Connection connection) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(GAME_TO_USER);
-        preparedStatement.setLong(1,user.getId());
-        preparedStatement.setLong(2,game.getId());
+        preparedStatement.setLong(1, user.getId());
+        preparedStatement.setLong(2, game.getId());
         preparedStatement.executeUpdate();
         closePrepareStatement(preparedStatement);
     }
@@ -134,11 +142,12 @@ public class GameDAOImpl implements GameDAO<Game,User>,Constants {
     public List<Game> getGameByName(int page, int recordsPerPage, String gameName, Connection connection) throws SQLException {
         List<Game> games;
         PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_GAME);
-        preparedStatement.setString(1,"%"+gameName+"%");
-        preparedStatement.setInt(2,(page-1)*recordsPerPage);
-        preparedStatement.setInt(3,recordsPerPage);
+        preparedStatement.setString(1, "%" + gameName + "%");
+        preparedStatement.setInt(2, (page - 1) * recordsPerPage);
+        preparedStatement.setInt(3, recordsPerPage);
         ResultSet resultSet = preparedStatement.executeQuery();
         games = getGameLIst(resultSet);
+        closeResultSet(resultSet);
         closePrepareStatement(preparedStatement);
         return games;
     }
@@ -146,11 +155,11 @@ public class GameDAOImpl implements GameDAO<Game,User>,Constants {
 
     private List<Game> getGameLIst(ResultSet resultSet) throws SQLException {
         List<Game> games = null;
-        if(resultSet.next()){
+        if (resultSet.next()) {
             games = new ArrayList<>();
-            do{
+            do {
                 games.add(getGame(resultSet));
-            }while (resultSet.next());
+            } while (resultSet.next());
         }
         return games;
     }
@@ -167,7 +176,8 @@ public class GameDAOImpl implements GameDAO<Game,User>,Constants {
         gameTemp.setRecommendedSystemRequirements(new SystemRequirements());
         gameTemp.getMinimalSystemRequirements().setId(resultSet.getLong(MIN_SYS_REQ_COLUMN));
         gameTemp.getRecommendedSystemRequirements().setId(resultSet.getLong(REC_SYS_REQ_COLUMN));
-        gameTemp.setPosterLink(resultSet.getString(POSTER_LINK));
+        gameTemp.setPoster(new Poster());
+        gameTemp.getPoster().setId(resultSet.getLong(FILE_ID));
         return gameTemp;
     }
 

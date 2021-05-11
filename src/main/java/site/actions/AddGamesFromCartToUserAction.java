@@ -14,24 +14,31 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class AddGamesFromCartToUserAction implements Action,Constants {
-    ConnectionPool pool = ConnectionPool.getInstance();
+    private final ConnectionPool pool;
+    private final GameDAO<Game,User> gameDAO;
+    private final UserDAO<User,User> userDAO;
+
+    {
+        pool = ConnectionPool.getInstance();
+        gameDAO = new GameDAOImpl();
+        userDAO = new UserDAOImpl();
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Connection connection = pool.getConnection();
         HttpSession session = request.getSession();
-        DAO gameDAO = new GameDAOImpl();
-        DAO userDAO = new UserDAOImpl();
         List<Game> games = (List<Game>) session.getAttribute(CART_ATTRIBUTE);
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
 
-        int gamesCostSum = games.stream().map(Game ::getCost).reduce((s1,s2) -> s1 + s2).orElse(0);
+        int gamesCostSum = games.stream().map(Game ::getCost).reduce(Integer::sum).orElse(0);
 
         try {
             if(user.getMoney() >= gamesCostSum) {
                 connection.setAutoCommit(false);
                 for (Game game : games) {
-                    ((GameDAOImpl) gameDAO).addGameToUser(user, game, connection);
-                    ((UserDAOImpl) userDAO).buyGame(user, game, connection);
+                    gameDAO.addGameToUser(user, game, connection);
+                    userDAO.buyGame(user, game, connection);
                     user.setMoney(user.getMoney() - game.getCost());
                 }
                 session.removeAttribute(CART_ATTRIBUTE);

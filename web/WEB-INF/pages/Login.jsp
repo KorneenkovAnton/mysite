@@ -3,8 +3,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-<meta charset="UTF-8">
-    <fmt:setBundle basename="resources" var = "bundle"/>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <fmt:setBundle basename="resources" var="bundle"/>
     <c:choose>
         <c:when test="${lan != null}">
             <fmt:setLocale value="${lan}"/>
@@ -16,21 +17,25 @@
 </head>
 <body>
 <jsp:include page="MainPage.jsp"/>
-<div class="login">
-    <img src="${pageContext.request.contextPath}/images/user-regular.svg" width="100" height="100"/>
+<div class="login bg-light gradient-border">
     <form action="/getUser" method="post">
-        <div>
-            <input type="text" name="login" placeholder="Login" required = "required" pattern="^[a-zA-Z][a-zA-Z0-9-]{1,20}$">
+        <div class="row mb-3">
+            <label for="inputLogin" class="col-sm-2 col-form-label">Login</label>
+            <div class="col-sm-10">
+                <input type="text" name="login" placeholder="Login" required="required"
+                       pattern="^[a-zA-Z][a-zA-Z0-9-]{1,20}$" class="form-control" id="inputLogin">
+            </div>
         </div>
-        <div>
-            <input type="password" name="password" placeholder="Password" required = "required" pattern="^(?=.*\d)(?=.*[a-z])(?!.*\s).*$"
-            minlength="8">
+        <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" name="password" placeholder="Password" required="required"
+                       pattern="^(?=.*\d)(?=.*[a-z])(?!.*\s).*$"
+                       minlength="8" class="form-control" id="inputPassword3">
+            </div>
         </div>
-        <div>
-            <input class="enter" type="submit" name = "submit" value="ENTER">
-        </div>
-        <a href="/register" >Register</a>
-
+        <button type="submit" name="submit" class="btn btn-primary">Sign in</button>
+        <a href="/register">Register</a>
     </form>
 </div>
 </body>

@@ -2,6 +2,7 @@ package site.actions;
 
 import DAO.*;
 import entity.Game;
+import entity.User;
 import pool.ConnectionPool;
 import util.constants.Constants;
 
@@ -11,24 +12,31 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DeleteGameAction implements Action, Constants {
-    private  final ConnectionPool pool = ConnectionPool.getInstance();
+    private final ConnectionPool pool;
+    private final GameDAO<Game, User> gameDAO;
+
+    {
+        pool = ConnectionPool.getInstance();
+        gameDAO = new GameDAOImpl();
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Connection connection = pool.getConnection();
-        DAO gameDAO = new GameDAOImpl();
         Game game = new Game(Integer.parseInt(request.getParameter(DELETED_GAME)));
 
         try {
             connection.setAutoCommit(false);
-            ((GameDAOImpl)gameDAO).deleteLinks(game,connection);
-            ((GameDAOImpl)gameDAO).delete(game,connection);
+            gameDAO.deleteLinks(game, connection);
+            gameDAO.delete(game, connection);
             connection.commit();
             request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
-        }catch (SQLException e){
+        } catch (SQLException e) {
+            e.printStackTrace();
             connection.rollback();
-            request.setAttribute(OPERATION_STATUS,OPERATION_ERROR);
+            request.setAttribute(OPERATION_STATUS, OPERATION_ERROR);
             throw new SQLException("DeleteGameAction");
-        }finally {
+        } finally {
             pool.closeConnection(connection);
         }
         return MAIN_PAGE_ACTION;

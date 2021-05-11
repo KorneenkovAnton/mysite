@@ -10,11 +10,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class GameCreator implements Creator<Game>,Constants {
+public class GameCreator implements Creator<Game>, Constants {
+
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     @Override
     public Game create(HttpServletRequest request) {
         Game game = new Game();
-        SimpleDateFormat simpleDateFormat  = new SimpleDateFormat("yyyy-MM-dd");
+
         game.setName(request.getParameter(NAME_COLUMN));
         game.setCost(Integer.parseInt(request.getParameter(COAST_COLUMN)));
         try {

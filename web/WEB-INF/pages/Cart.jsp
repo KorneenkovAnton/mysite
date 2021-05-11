@@ -14,67 +14,55 @@
             <fmt:setLocale value="en_US"/>
         </c:otherwise>
     </c:choose>
-    <fmt:setBundle basename="resources" var = "bundle"/>
-    <link href = "${pageContext.request.contextPath}/style.css" rel = "stylesheet" type = "text/css"/>
+    <fmt:setBundle basename="resources" var="bundle"/>
+    <link href="${pageContext.request.contextPath}/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
 <jsp:include page="MainPage.jsp"/>
-
-<div class="shopping-cart">
-    <div class="title">
-        <fmt:message key="text.shopping_bag" bundle="${bundle}"/>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-info panel-shadow">
+            <div class="profile panel-body bg-light">
+                <div class="table-responsive ">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Description</th>
+                                <th><fmt:message key="text.cost" bundle="${bundle}"/></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="game" items="${cart}">
+                                <tr>
+                                    <td><img src="data:${game.poster.mimeType};base64, ${game.poster.base64file}" width="70px"
+                                             height="70px"></td>
+                                    <td>
+                                        <strong>${game.name}</strong>
+                                        <p>${game.developer}</p>
+                                    </td>
+                                    <td>
+                                        <cur:currency lan="${lan}">${game.cost}</cur:currency>
+                                    </td>
+                                    <td>
+                                        <form class="form-inline" action="/deleteFromCart" method="post">
+                                            <input type="hidden" name="deleteCart" value="${game.id}">
+                                            <input type="submit" class="btn-danger btn" value="Delete">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+                <form action="/buyGames" method="post">
+                    <input type="submit" class="btn-primary btn" value="Buy">
+                </form>
+            </div>
+        </div>
     </div>
-            <c:choose>
-                <c:when test="${cart != null}">
-                    <c:forEach var="game" items="${cart}">
-
-                        <div class="item">
-                            <div class="buttons">
-                                <form action="/deleteFromCart" method="post">
-                                    <input type="hidden" name="deleteCart" value="${game.id}">
-                                    <input type="submit" class="delete" value="DELETE">
-                                </form>
-                            </div>
-
-                            <div class="image">
-                                <img src="${pageContext.request.contextPath}${game.posterLink}" alt="" width="70px" height="70px"/>
-                            </div>
-
-                            <div class="description">
-                                <span>${game.name}</span>
-                                <span>
-                                    <c:choose>
-                                        <c:when test="${lan != null}">
-                                            <c:if test="${lan.equals('ru_RU')}">
-                                                <fmt:formatDate value="${game.releaseDate}" pattern="dd.MM.yyyy"/>
-                                            </c:if>
-                                            <c:if test="${lan.equals('en_US')}">
-                                                <fmt:formatDate value="${game.releaseDate}" pattern="MM.dd.yyyy"/>
-                                            </c:if>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <fmt:formatDate value="${game.releaseDate}" pattern="MM.dd.yyyy"/>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </span>
-                                <span>${game.developer}</span>
-                            </div>
-                            <div class="total-price"><fmt:message key="text.cost" bundle="${bundle}"/>
-                                <cur:currency lan="${lan}">${game.cost}</cur:currency>
-                            </div>
-                        </div>
-                    </c:forEach>
-                    <div class="buttons">
-                        <form action="/buyGames" method="post">
-                            <input type="submit" class="delete" value="BUY">
-                        </form>
-                    </div>
-                </c:when>
-                <c:otherwise>
-                    <fmt:message key="text.empty_cart" bundle="${bundle}"/>
-                </c:otherwise>
-            </c:choose>
 </div>
 </body>
 </html>

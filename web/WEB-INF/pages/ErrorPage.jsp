@@ -4,7 +4,7 @@
     <title>Error</title>
     <link href = "${pageContext.request.contextPath}/style.css" rel = "stylesheet" type = "text/css"/>
 </head>
-<body>
+<body bgcolor="#f0f8ff">
 <div id="notfound">
     <div class="notfound">
         <div class="notfound-404">

@@ -114,7 +114,7 @@ public class User  {
     public User() {
     }
 
-    public User(int id) {
+    public User(long id) {
         this.id = id;
     }
 

@@ -14,12 +14,18 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 public class AddFriendAction implements Action,Constants {
-    private final ConnectionPool pool = ConnectionPool.getInstance();
+    private final ConnectionPool pool;
+    private final UserFriendDAO userFriendDAO;
+
+    {
+        pool = ConnectionPool.getInstance();
+        userFriendDAO = new UserFriendDAOImpl();
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         Connection connection = pool.getConnection();
         HttpSession session = request.getSession();
-        UserFriendDAO userFriendDAO = new UserFriendDAOImpl();
         User user = (User) session.getAttribute(USER_ATTRIBUTE);
         Long friendID = Long.valueOf(request.getParameter(ADD_FRIEND_ID));
 

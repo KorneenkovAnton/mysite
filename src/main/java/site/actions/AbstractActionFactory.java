@@ -2,9 +2,12 @@ package site.actions;
 
 
 public class AbstractActionFactory {
-    public final static  ActionFactory instance = new ActionFactory();
+    public static ActionFactory instance;
 
-    public static  ActionFactory getInstance(){
+    public static synchronized ActionFactory getInstance(){
+        if(instance == null) {
+            instance = new ActionFactory();
+        }
         return instance;
     }
 }

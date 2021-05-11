@@ -10,11 +10,13 @@ import java.text.SimpleDateFormat;
 
 
 public class UserCreator implements Creator<User>, Constants {
+
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     @Override
     public User create(HttpServletRequest request) {
         User user = new User();
         Address address = new Address();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             user.setId(Long.parseLong(request.getParameter(ID_COLUMN)));
@@ -32,6 +34,13 @@ public class UserCreator implements Creator<User>, Constants {
             e.printStackTrace();
         }
         user.seteMail(request.getParameter(EMAIL_COLUMN));
+
+        try {
+            address.setId(Long.parseLong(request.getParameter("address_id")));
+        }catch (NumberFormatException e){
+            System.out.println("new address");
+        }
+
         address.setCountry(request.getParameter(COUNTRY_COLUMN));
         address.setCity(request.getParameter(CITY_COLUMN));
         address.setStreet(request.getParameter(STREET_COLUMN));

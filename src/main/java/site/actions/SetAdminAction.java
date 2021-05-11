@@ -12,27 +12,32 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 
-public class SetAdminAction implements Action,Constants {
-    private  final ConnectionPool pool = ConnectionPool.getInstance();
+public class SetAdminAction implements Action, Constants {
+    private final ConnectionPool pool;
+    private final UserDAO<User, User> userDAO;
+
+    {
+        pool = ConnectionPool.getInstance();
+        userDAO = new UserDAOImpl();
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException {
         int newAdminID = Integer.parseInt(request.getParameter(NEW_ADMIN_ID));
         Connection connection = pool.getConnection();
         HttpSession session = request.getSession();
-        DAO userDAO = new UserDAOImpl();
         User admin = (User) session.getAttribute(USER_ATTRIBUTE);
         User newAdmin = new User(newAdminID);
 
-        if(admin.isAdmin()){
+        if (admin.isAdmin()) {
             try {
-                ((UserDAOImpl)userDAO).setAdmin(newAdmin,connection);
+                userDAO.setAdmin(newAdmin, connection);
                 request.setAttribute(OPERATION_STATUS, OPERATION_SUCCESS);
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
                 request.setAttribute(OPERATION_STATUS, OPERATION_ERROR);
                 throw new SQLException("SetAdminAction");
-            }finally {
+            } finally {
                 pool.closeConnection(connection);
             }
         }

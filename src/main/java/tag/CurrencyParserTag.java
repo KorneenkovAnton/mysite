@@ -8,13 +8,12 @@ import java.io.StringWriter;
 
 public class CurrencyParserTag extends SimpleTagSupport {
     public static int exchangeRate = 66;
+    private final StringWriter sw = new StringWriter();
     private String lan;
-    private StringWriter sw = new StringWriter();
 
     public void setLan(Object lan) {
         this.lan = (String) lan;
     }
-
 
     @Override
     public void doTag() throws JspException, IOException {
@@ -23,17 +22,17 @@ public class CurrencyParserTag extends SimpleTagSupport {
             switch (lan) {
                 case "en_US": {
                     getJspBody().invoke(sw);
-                    out.print(sw.toString()+" USD");
+                    out.print(sw.toString() + " USD");
                     break;
                 }
                 case "ru_RU": {
                     getJspBody().invoke(sw);
-                    out.print(Integer.parseInt(sw.toString()) * exchangeRate +" RUB");
+                    out.print(Integer.parseInt(sw.toString()) * exchangeRate + " RUB");
                 }
             }
-        }else {
+        } else {
             getJspBody().invoke(sw);
-            out.print(sw.toString()+" USD");
+            out.print(sw.toString() + " USD");
         }
     }
 }
